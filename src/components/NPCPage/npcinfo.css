@@ -1,0 +1,76 @@
+input {
+  all: unset;
+}
+
+.npc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  overflow-y: scroll;
+  height: 95%;
+}
+
+.npc-top {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding-top: 15px;
+  align-items: center;
+}
+
+.npc-top-avatar {
+  position: relative;
+  height: 150px;
+  width: 150px;
+}
+
+.npc-top-avatar-img {
+  height: 100%;
+  width: 100%;
+}
+
+.npc-top-avatar-nickname {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.npc_stats {
+}
+
+.npc_stats-single {
+  width: 100%;
+  height: 100%;
+}
+
+.npc_skills {
+  width: 90%;
+  height: 30%;
+  background: #bac2a9;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  min-height: 150px;
+}
+
+.npc_skills-title {
+  padding-top: 5px;
+  border-bottom: 1px solid black;
+  width: 90%;
+  align-self: center;
+}
+
+table {
+  width: 90%;
+}
+
+th {
+  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+  background: #bac2a9;
+}

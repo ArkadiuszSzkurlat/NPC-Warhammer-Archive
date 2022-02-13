@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import MainPage from './pages/MainPage';
+import NPCPage from './pages/NPCPage';
+import {
+  createTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+} from '@mui/material/styles';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-function App() {
+import brown from '@mui/material/colors/brown';
+import cyan from '@mui/material/colors/cyan';
+
+let theme = createTheme({
+  palette: {
+    primary: brown,
+    secondary: cyan,
+  },
+});
+
+theme = responsiveFontSizes(theme);
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          <Route path='/' element={<MainPage />}></Route>
+          <Route path='/NPCPage' element={<NPCPage />}></Route>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
