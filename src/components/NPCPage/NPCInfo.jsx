@@ -1,28 +1,15 @@
-import { Typography } from '@mui/material';
+import { ListItem, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './npcinfo.css';
 import AvatarImg from './face.jpg';
 import StatInput from './StatInput';
+import Skill from './Skill';
 
-const NPCInfo = ({ editable }) => {
-  const [NPC, setNPC] = useState({
-    mainInfo: {
-      race: 'Niziołek',
-      class: 'N/A',
-      status: 'Brąz 5',
-      age: 17,
-      height: 110,
-    },
-    stats: [45, 56, 45, 35, 45, 26, 35, 36, 42, 33],
-    skills: ['Magia Prosta (51)', 'Alchemia (76)'],
-    items: ['Broń +6', 'Czapka', 'Skórzana kurta (PP 1)'],
-    description:
-      'Rogać to niziołek banita, całe życie zajmuje się napadaniem na ludzi. Nie atakuje on jednak bezbronnych ludzi ale stara się wybierać swoje cele ze względu na ich podejście do niższych warstw społęcznych',
-  });
-
+const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
   const [NPCStats, setNPCStats] = useState(NPC.stats);
 
-  const handleChangeNPCStats = async (e, i) => {
+  //Zmienia staty postaci
+  const handleChangeNPCStats = (e, i) => {
     const { name, value } = e.target;
     const valueNumber = Number(value);
 
@@ -35,6 +22,37 @@ const NPCInfo = ({ editable }) => {
     }));
   };
 
+  //zmiana skillów
+  const handleChangeSkill = async (e, i) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+
+    let NPCSkills = NPC.skills;
+    NPCSkills[name] = value;
+
+    setNPC((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  //zapis zmian
+  let started = true;
+  useEffect(() => {
+    if (!editable && saved) {
+      let NPCStatsLET = Object.values(NPCStats);
+      setNPC((prevState) => ({
+        ...prevState,
+        stats: NPCStatsLET,
+      }));
+    } else if (editable && saved) {
+      alert('Musisz wyłączyć opcje edytowania');
+    }
+  }, [saved]);
+
+  useEffect(() => {
+    console.log(NPC);
+  }, [NPC]);
   return (
     <div className='npc'>
       {/* TOP */}
@@ -42,11 +60,13 @@ const NPCInfo = ({ editable }) => {
         {/* IMG */}
         <div className='npc-top-avatar'>
           <img src={AvatarImg} className='npc-top-avatar-img' alt='avatar' />
+          {/* TODO Dodać możliwość zmiany nazwy postaci */}
           <Typography variant='h6' className='npc-top-avatar-nickname'>
             Reaper Rogaś
           </Typography>
         </div>
         {/* Main info */}
+        {/* TODO dodać możliwość edycji najważniejszych cech */}
         <div style={{ color: 'white' }}>
           <Typography variant='body1'>Rasa: {NPC.mainInfo.race}</Typography>
           <Typography variant='body1'>Klasa: {NPC.mainInfo.class}</Typography>
@@ -90,13 +110,21 @@ const NPCInfo = ({ editable }) => {
         <Typography variant='body1' className='npc_skills-title'>
           Umiejętności/talenty
         </Typography>
+        {/* TODO Dodać możliwość dodawania i usuwania całych rekordów */}
         <ul>
-          {NPC.skills.map((skill) => (
-            <li style={{ paddingBottom: '5px' }}>{skill}</li>
+          {NPC.skills.map((skill, index) => (
+            <Skill
+              style={{ paddingBottom: '5px' }}
+              text={skill}
+              index={index}
+              editable={editable}
+              handleChange={handleChangeSkill}
+            />
           ))}
         </ul>
       </div>
       <div className='npc_skills'>
+        {/* TODO Dodać możliwość dodawania, usuwania i edycji przedmiotów */}
         <Typography variant='body1' className='npc_skills-title'>
           Przedmioty
         </Typography>
@@ -107,6 +135,7 @@ const NPCInfo = ({ editable }) => {
         </ul>
       </div>
       <div className='npc_skills'>
+        {/* TODO Dodać możliwość edycji opisu */}
         <Typography variant='body1' className='npc_skills-title'>
           Opis postaci
         </Typography>
