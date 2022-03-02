@@ -23,6 +23,15 @@ const NPCNav = ({
     setSaved(!saved);
   };
 
+  const deleteButtonHandler = () => {
+    //TODO usunięcie postaci z bazy, lepiej żeby popuot był z material ui
+    if (window.confirm('Na pewno chcesz usunąć postać?')) {
+      console.log('Usunąłeś postać');
+    } else {
+      console.log('Anulowałeś usuwanie postaci');
+    }
+  };
+
   useEffect(() => {
     console.log(saved);
   }, [saved]);
@@ -56,7 +65,12 @@ const NPCNav = ({
       >
         Edytuj
       </Button>
-      <Button size='small' sx={{ color: 'black' }} startIcon={<DeleteIcon />}>
+      <Button
+        size='small'
+        sx={{ color: 'black' }}
+        startIcon={<DeleteIcon />}
+        onClick={deleteButtonHandler}
+      >
         Usuń
       </Button>
     </div>

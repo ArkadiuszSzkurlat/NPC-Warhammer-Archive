@@ -9,18 +9,17 @@ const NPCPage = () => {
   const [saved, setSaved] = useState(false);
 
   const [NPC, setNPC] = useState({
-    mainInfo: {
-      race: 'Niziołek',
-      class: 'N/A',
-      status: 'Brąz 5',
-      age: 17,
-      height: 110,
-    },
+    name: 'Reaper Rogaś',
+    race: 'Niziołek',
+    class: 'N/A',
+    status: 'Brąz 5',
+    age: 17,
+    height: 110,
     stats: [45, 56, 45, 35, 45, 26, 35, 36, 42, 33],
     skills: ['Magia Prosta (51)', 'Alchemia (76)'],
     items: ['Broń +6', 'Czapka', 'Skórzana kurta (PP 1)'],
     description:
-      'Rogać to niziołek banita, całe życie zajmuje się napadaniem na ludzi. Nie atakuje on jednak bezbronnych ludzi ale stara się wybierać swoje cele ze względu na ich podejście do niższych warstw społęcznych',
+      'Rogaś to niziołek banita, całe życie zajmuje się napadaniem na ludzi. Nie atakuje on jednak bezbronnych ludzi ale stara się wybierać swoje cele ze względu na ich podejście do niższych warstw społecznych',
   });
 
   return (

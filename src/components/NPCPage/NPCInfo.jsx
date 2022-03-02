@@ -22,17 +22,23 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
     }));
   };
 
-  //zmiana skillów
-  const handleChangeSkill = async (e, i) => {
+  const singleListItemChange = async (e, thing, i) => {
     const { name, value } = e.target;
-    console.log(name, value);
 
-    let NPCSkills = NPC.skills;
-    NPCSkills[name] = value;
+    let NPCThings = NPC[thing];
+    NPCThings[name] = value;
 
     setNPC((prevState) => ({
       ...prevState,
       [name]: value,
+    }));
+  };
+
+  const handleSingleItemChange = async (e, type, i) => {
+    const { name, value } = e.target;
+    setNPC((prevState) => ({
+      ...prevState,
+      [type]: value,
     }));
   };
 
@@ -60,19 +66,74 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
         {/* IMG */}
         <div className='npc-top-avatar'>
           <img src={AvatarImg} className='npc-top-avatar-img' alt='avatar' />
-          {/* TODO Dodać możliwość zmiany nazwy postaci */}
-          <Typography variant='h6' className='npc-top-avatar-nickname'>
-            Reaper Rogaś
-          </Typography>
+          <input
+            className='npc-top-avatar-nickname'
+            type='text'
+            value={NPC.name}
+            disabled={!editable}
+            onChange={(e) => {
+              handleSingleItemChange(e, 'name');
+            }}
+          />
         </div>
         {/* Main info */}
         {/* TODO dodać możliwość edycji najważniejszych cech */}
         <div style={{ color: 'white' }}>
-          <Typography variant='body1'>Rasa: {NPC.mainInfo.race}</Typography>
-          <Typography variant='body1'>Klasa: {NPC.mainInfo.class}</Typography>
-          <Typography variant='body1'>Status: {NPC.mainInfo.status}</Typography>
-          <Typography variant='body1'>Wiek: {NPC.mainInfo.age}</Typography>
-          <Typography variant='body1'>Wzrost: {NPC.mainInfo.height}</Typography>
+          <Typography variant='body1'>
+            Rasa:{' '}
+            <input
+              type='text'
+              value={NPC.race}
+              disabled={!editable}
+              onChange={(e) => {
+                handleSingleItemChange(e, 'race');
+              }}
+            />
+          </Typography>
+          <Typography variant='body1'>
+            Klasa:{' '}
+            <input
+              type='text'
+              value={NPC.class}
+              disabled={!editable}
+              onChange={(e) => {
+                handleSingleItemChange(e, 'class');
+              }}
+            />
+          </Typography>
+          <Typography variant='body1'>
+            Status:{' '}
+            <input
+              type='text'
+              value={NPC.status}
+              disabled={!editable}
+              onChange={(e) => {
+                handleSingleItemChange(e, 'status');
+              }}
+            />
+          </Typography>
+          <Typography variant='body1'>
+            Wiek:{' '}
+            <input
+              type='text'
+              value={NPC.age}
+              disabled={!editable}
+              onChange={(e) => {
+                handleSingleItemChange(e, 'age');
+              }}
+            />
+          </Typography>
+          <Typography variant='body1'>
+            Wzrost:{' '}
+            <input
+              type='text'
+              value={NPC.height}
+              disabled={!editable}
+              onChange={(e) => {
+                handleSingleItemChange(e, 'height');
+              }}
+            />
+          </Typography>
         </div>
       </div>
       {/* STATS */}
@@ -116,9 +177,10 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
             <Skill
               style={{ paddingBottom: '5px' }}
               text={skill}
+              itemType={'skills'}
               index={index}
               editable={editable}
-              handleChange={handleChangeSkill}
+              handleChange={singleListItemChange}
             />
           ))}
         </ul>
@@ -129,8 +191,15 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
           Przedmioty
         </Typography>
         <ul>
-          {NPC.items.map((item) => (
-            <li style={{ paddingBottom: '5px' }}>{item}</li>
+          {NPC.items.map((item, index) => (
+            <Skill
+              style={{ paddingBottom: '5px' }}
+              text={item}
+              index={index}
+              itemType={'items'}
+              editable={editable}
+              handleChange={singleListItemChange}
+            />
           ))}
         </ul>
       </div>
@@ -139,9 +208,15 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
         <Typography variant='body1' className='npc_skills-title'>
           Opis postaci
         </Typography>
-        <Typography variant='body1' style={{ margin: '1em' }}>
-          {NPC.description}
-        </Typography>
+        <textarea
+          className='npc_skills--textArea'
+          type='text'
+          value={NPC.description}
+          disabled={!editable}
+          onChange={(e) => {
+            handleSingleItemChange(e, 'description');
+          }}
+        ></textarea>
       </div>
     </div>
   );

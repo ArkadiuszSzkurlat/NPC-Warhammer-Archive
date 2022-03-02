@@ -5,11 +5,13 @@ const Skill = ({
   text,
   index,
   handleChange,
+  itemType,
 }: {
   editable: any;
   text: string;
   index: number;
   handleChange: any;
+  itemType: string;
 }) => {
   let i = index.toString();
   return (
@@ -19,8 +21,8 @@ const Skill = ({
         value={text}
         name={i}
         disabled={!editable}
-        onChange={handleChange}
-      ></input>
+        onChange={(e) => handleChange(e, itemType, i)}
+      />
     </li>
   );
 };
