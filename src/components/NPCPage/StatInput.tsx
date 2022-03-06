@@ -21,6 +21,8 @@ const StatInput = ({
       name={i}
       disabled={!editable}
       onChange={handleChange}
+      min='1'
+      max='100'
     ></input>
   );
 };

@@ -1,12 +1,21 @@
-import { ListItem, Typography } from '@mui/material';
+import { ListItem, Typography, IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './npcinfo.css';
 import AvatarImg from './face.jpg';
 import StatInput from './StatInput';
 import Skill from './Skill';
+import BasicInfo from './BasicInfo';
+import AddItem from './AddItem';
 
 const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
   const [NPCStats, setNPCStats] = useState(NPC.stats);
+  let NPCBasicInfo = [
+    { eng: 'race', pl: 'Rasa' },
+    { eng: 'class', pl: 'Klasa' },
+    { eng: 'status', pl: 'Status' },
+    { eng: 'age', pl: 'Wiek' },
+    { eng: 'height', pl: 'Wzrost' },
+  ];
 
   //Zmienia staty postaci
   const handleChangeNPCStats = (e, i) => {
@@ -31,6 +40,26 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
     setNPC((prevState) => ({
       ...prevState,
       [name]: value,
+    }));
+  };
+
+  const addListItem = async (thing) => {
+    let NPCThings = NPC[thing];
+    NPCThings.push('');
+
+    setNPC((prevState) => ({
+      ...prevState,
+      [thing]: NPCThings,
+    }));
+  };
+
+  const deleteItem = async (e, thing, i) => {
+    let NPCThings = NPC[thing];
+    NPCThings.splice(i, 1);
+
+    setNPC((prevState) => ({
+      ...prevState,
+      [thing]: NPCThings,
     }));
   };
 
@@ -77,63 +106,18 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
           />
         </div>
         {/* Main info */}
-        {/* TODO dodać możliwość edycji najważniejszych cech */}
         <div style={{ color: 'white' }}>
-          <Typography variant='body1'>
-            Rasa:{' '}
-            <input
-              type='text'
-              value={NPC.race}
-              disabled={!editable}
-              onChange={(e) => {
-                handleSingleItemChange(e, 'race');
-              }}
-            />
-          </Typography>
-          <Typography variant='body1'>
-            Klasa:{' '}
-            <input
-              type='text'
-              value={NPC.class}
-              disabled={!editable}
-              onChange={(e) => {
-                handleSingleItemChange(e, 'class');
-              }}
-            />
-          </Typography>
-          <Typography variant='body1'>
-            Status:{' '}
-            <input
-              type='text'
-              value={NPC.status}
-              disabled={!editable}
-              onChange={(e) => {
-                handleSingleItemChange(e, 'status');
-              }}
-            />
-          </Typography>
-          <Typography variant='body1'>
-            Wiek:{' '}
-            <input
-              type='text'
-              value={NPC.age}
-              disabled={!editable}
-              onChange={(e) => {
-                handleSingleItemChange(e, 'age');
-              }}
-            />
-          </Typography>
-          <Typography variant='body1'>
-            Wzrost:{' '}
-            <input
-              type='text'
-              value={NPC.height}
-              disabled={!editable}
-              onChange={(e) => {
-                handleSingleItemChange(e, 'height');
-              }}
-            />
-          </Typography>
+          {NPCBasicInfo.map((info, i) => {
+            return (
+              <BasicInfo
+                handleSingleItemChange={handleSingleItemChange}
+                editable={editable}
+                NPC={NPC}
+                infoType={info}
+                key={i}
+              />
+            );
+          })}
         </div>
       </div>
       {/* STATS */}
@@ -169,9 +153,8 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
       {/* SKILLS */}
       <div className='npc_skills'>
         <Typography variant='body1' className='npc_skills-title'>
-          Umiejętności/talenty
+          Umiejętności
         </Typography>
-        {/* TODO Dodać możliwość dodawania i usuwania całych rekordów */}
         <ul>
           {NPC.skills.map((skill, index) => (
             <Skill
@@ -181,30 +164,57 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
               index={index}
               editable={editable}
               handleChange={singleListItemChange}
+              deleteItem={deleteItem}
             />
           ))}
+          {editable && (
+            <AddItem addListItem={addListItem} itemType={'skills'} />
+          )}
         </ul>
       </div>
       <div className='npc_skills'>
-        {/* TODO Dodać możliwość dodawania, usuwania i edycji przedmiotów */}
         <Typography variant='body1' className='npc_skills-title'>
-          Przedmioty
+          Talenty
         </Typography>
         <ul>
-          {NPC.items.map((item, index) => (
+          {NPC.talents.map((item, index) => (
             <Skill
               style={{ paddingBottom: '5px' }}
               text={item}
               index={index}
-              itemType={'items'}
+              itemType={'talents'}
               editable={editable}
               handleChange={singleListItemChange}
+              deleteItem={deleteItem}
             />
           ))}
+          {editable && (
+            <AddItem addListItem={addListItem} itemType={'talents'} />
+          )}
         </ul>
       </div>
       <div className='npc_skills'>
-        {/* TODO Dodać możliwość edycji opisu */}
+        <Typography variant='body1' className='npc_skills-title'>
+          Przedmioty
+        </Typography>
+        <ul>
+          {NPC.items &&
+            NPC.items.map((item, index) => (
+              <Skill
+                style={{ paddingBottom: '5px' }}
+                text={item}
+                index={index}
+                itemType={'items'}
+                editable={editable}
+                handleChange={singleListItemChange}
+                deleteItem={deleteItem}
+              />
+            ))}
+
+          {editable && <AddItem addListItem={addListItem} itemType={'items'} />}
+        </ul>
+      </div>
+      <div className='npc_skills'>
         <Typography variant='body1' className='npc_skills-title'>
           Opis postaci
         </Typography>
