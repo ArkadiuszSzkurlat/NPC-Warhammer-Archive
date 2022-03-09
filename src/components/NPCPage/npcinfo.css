@@ -66,6 +66,22 @@ input {
   align-self: center;
 }
 
+.npc_skills-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.npc_skills-list-item {
+  min-height: 25px;
+  min-width: 250px;
+  margin-bottom: 5px;
+  margin-right: 20px;
+}
+
+.npc_skills-list-item-input {
+  width: 85%;
+}
+
 .npc_skills--textArea {
   width: 90%;
   height: 100%;
@@ -74,6 +90,7 @@ input {
   color: black;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   background: #bac2a9;
+  resize: none;
 }
 
 table {

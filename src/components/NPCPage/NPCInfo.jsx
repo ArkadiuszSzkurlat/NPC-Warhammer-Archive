@@ -1,7 +1,7 @@
 import { ListItem, Typography, IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './npcinfo.css';
-import AvatarImg from './face.jpg';
+import AvatarImg from '../../resources/images/face.jpg';
 import StatInput from './StatInput';
 import Skill from './Skill';
 import BasicInfo from './BasicInfo';
@@ -155,7 +155,7 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
         <Typography variant='body1' className='npc_skills-title'>
           Umiejętności
         </Typography>
-        <ul>
+        <ul className='npc_skills-list'>
           {NPC.skills.map((skill, index) => (
             <Skill
               style={{ paddingBottom: '5px' }}
@@ -172,11 +172,12 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
           )}
         </ul>
       </div>
+      {/* Talents */}
       <div className='npc_skills'>
         <Typography variant='body1' className='npc_skills-title'>
           Talenty
         </Typography>
-        <ul>
+        <ul className='npc_skills-list'>
           {NPC.talents.map((item, index) => (
             <Skill
               style={{ paddingBottom: '5px' }}
@@ -193,11 +194,12 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
           )}
         </ul>
       </div>
+      {/* Items */}
       <div className='npc_skills'>
         <Typography variant='body1' className='npc_skills-title'>
           Przedmioty
         </Typography>
-        <ul>
+        <ul className='npc_skills-list'>
           {NPC.items &&
             NPC.items.map((item, index) => (
               <Skill

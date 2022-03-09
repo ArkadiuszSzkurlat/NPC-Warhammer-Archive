@@ -1,0 +1,69 @@
+.list {
+  padding: 20px 0px;
+  background-color: #65695b;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.listOfNPC {
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.list-folderCard {
+  width: 90%;
+  min-height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.listCardNPC {
+  position: relative;
+  width: 125px;
+  height: 125px;
+}
+
+.listCardNPC:hover {
+  cursor: pointer;
+}
+
+.listCardNPC-avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.listCardNPC-text {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.listCardNPC-fade {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all ease 0.4s;
+}
+
+.listCardNPC-fade:hover {
+  opacity: 1;
+}

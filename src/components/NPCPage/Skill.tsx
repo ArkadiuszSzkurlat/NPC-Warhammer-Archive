@@ -18,8 +18,9 @@ const Skill = ({
 }) => {
   let i = index.toString();
   return (
-    <li style={{ minHeight: '25px', marginBottom: '5px' }}>
+    <li className='npc_skills-list-item'>
       <input
+        className='npc_skills-list-item-input'
         type='text'
         value={text}
         name={i}

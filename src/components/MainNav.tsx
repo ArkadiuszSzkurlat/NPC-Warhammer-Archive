@@ -30,6 +30,7 @@ const MainNav = () => {
         >
           <MenuItem value={10}>Nazwa</MenuItem>
           <MenuItem value={20}>Gwiazdki</MenuItem>
+          <MenuItem value={30}>Data dodania</MenuItem>
         </Select>
       </FormControl>
     </div>
