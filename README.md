@@ -58,3 +58,5 @@ To do:
 
 ## Contact
 Created by @ArkadiuszSzkurlat
+
+Some rights reserved
