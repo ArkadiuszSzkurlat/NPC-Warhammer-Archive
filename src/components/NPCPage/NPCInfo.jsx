@@ -89,15 +89,15 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
     console.log(NPC);
   }, [NPC]);
   return (
-    <div className='npc'>
+    <div className="npc">
       {/* TOP */}
-      <div className='npc-top'>
+      <div className="npc-top">
         {/* IMG */}
-        <div className='npc-top-avatar'>
-          <img src={AvatarImg} className='npc-top-avatar-img' alt='avatar' />
+        <div className="npc-top-avatar">
+          <img src={AvatarImg} className="npc-top-avatar-img" alt="avatar" />
           <input
-            className='npc-top-avatar-nickname'
-            type='text'
+            className="npc-top-avatar-nickname"
+            type="text"
             value={NPC.name}
             disabled={!editable}
             onChange={(e) => {
@@ -151,11 +151,11 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
         </tr>
       </table>
       {/* SKILLS */}
-      <div className='npc_skills'>
-        <Typography variant='body1' className='npc_skills-title'>
+      <div className="npc_skills">
+        <Typography variant="body1" className="npc_skills-title">
           Umiejętności
         </Typography>
-        <ul className='npc_skills-list'>
+        <ul className="npc_skills-list">
           {NPC.skills.map((skill, index) => (
             <Skill
               style={{ paddingBottom: '5px' }}
@@ -173,11 +173,11 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
         </ul>
       </div>
       {/* Talents */}
-      <div className='npc_skills'>
-        <Typography variant='body1' className='npc_skills-title'>
+      <div className="npc_skills">
+        <Typography variant="body1" className="npc_skills-title">
           Talenty
         </Typography>
-        <ul className='npc_skills-list'>
+        <ul className="npc_skills-list">
           {NPC.talents.map((item, index) => (
             <Skill
               style={{ paddingBottom: '5px' }}
@@ -195,11 +195,11 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
         </ul>
       </div>
       {/* Items */}
-      <div className='npc_skills'>
-        <Typography variant='body1' className='npc_skills-title'>
+      <div className="npc_skills">
+        <Typography variant="body1" className="npc_skills-title">
           Przedmioty
         </Typography>
-        <ul className='npc_skills-list'>
+        <ul className="npc_skills-list">
           {NPC.items &&
             NPC.items.map((item, index) => (
               <Skill
@@ -216,13 +216,13 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
           {editable && <AddItem addListItem={addListItem} itemType={'items'} />}
         </ul>
       </div>
-      <div className='npc_skills'>
-        <Typography variant='body1' className='npc_skills-title'>
+      <div className="npc_skills">
+        <Typography variant="body1" className="npc_skills-title">
           Opis postaci
         </Typography>
         <textarea
-          className='npc_skills--textArea'
-          type='text'
+          className="npc_skills--textArea"
+          type="text"
           value={NPC.description}
           disabled={!editable}
           onChange={(e) => {

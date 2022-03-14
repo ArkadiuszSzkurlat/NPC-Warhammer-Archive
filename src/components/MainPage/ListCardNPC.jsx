@@ -5,12 +5,12 @@ import './listcard.css';
 
 const ListCardNPC = ({ name }) => {
   return (
-    <Card className='listCardNPC'>
-      <img className='listCardNPC-avatar' alt='avatar' src={avatarImage} />
-      <Typography className='listCardNPC-text' variant='body1'>
+    <Card className="listCardNPC">
+      <img className="listCardNPC-avatar" alt="avatar" src={avatarImage} />
+      <Typography className="listCardNPC-text" variant="body1">
         {name}
       </Typography>
-      <div className='listCardNPC-fade'>
+      <div className="listCardNPC-fade">
         <IconButton
           sx={{
             position: 'absolute',
@@ -23,9 +23,9 @@ const ListCardNPC = ({ name }) => {
             borderRadius: '0 0 0 20px',
           }}
         >
-          <DeleteOutlineIcon size='small' />
+          <DeleteOutlineIcon size="small" />
         </IconButton>
-        <Button variant='contained' color='primary' size='small'>
+        <Button variant="contained" color="primary" size="small">
           Edytuj
         </Button>
       </div>

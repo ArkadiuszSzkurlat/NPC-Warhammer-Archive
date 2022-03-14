@@ -48,20 +48,20 @@ let files = [
 
 const MainList = () => {
   return (
-    <div className='list'>
-      {files.map((file) => {
+    <div className="list">
+      {files.map((file, i) => {
         if (file.type === 'files') {
-          return <ListCardFolder name={file.name} />;
-        } else if (file.type === 'NPC') {
-          return (
-            <div className='listOfNPC'>
-              <ListCardNPC name={file.data.name} />
-              <ListCardNPC name={file.data.name} />
-              <ListCardNPC name={file.data.name} />
-            </div>
-          );
-        }
+          return <ListCardFolder name={file.name} data={file.data} index={i} />;
+        } else return;
       })}
+
+      <div className="listOfNPC">
+        {files.map((file, i) => {
+          if (file.type === 'NPC') {
+            return <ListCardNPC name={file.data.name} index={i} />;
+          } else return;
+        })}
+      </div>
     </div>
   );
 };
