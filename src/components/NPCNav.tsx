@@ -16,8 +16,6 @@ const NPCNav = ({
   saved: any;
   setSaved: any;
 }) => {
-  const [age, setAge] = useState();
-
   // FIXME Hook powinien się zmieniać po zapisaniu na false
   const saveButtonHandler = () => {
     setSaved(!saved);
@@ -32,15 +30,11 @@ const NPCNav = ({
     }
   };
 
-  useEffect(() => {
-    console.log(saved);
-  }, [saved]);
-
   return (
-    <div className='nav'>
-      <Link href='./'>
+    <div className="nav">
+      <Link href="./">
         <Button
-          size='small'
+          size="small"
           sx={{ color: 'black' }}
           startIcon={<ArrowBackIosNewIcon />}
         >
@@ -48,7 +42,7 @@ const NPCNav = ({
         </Button>
       </Link>
       <Button
-        size='small'
+        size="small"
         sx={{ color: saved ? '#b05217' : 'black' }}
         startIcon={<SaveIcon />}
         onClick={saveButtonHandler}
@@ -56,7 +50,7 @@ const NPCNav = ({
         Zapisz
       </Button>
       <Button
-        size='small'
+        size="small"
         sx={{ color: editable ? '#b05217' : 'black' }}
         onClick={() => {
           setEditable(!editable);
@@ -66,7 +60,7 @@ const NPCNav = ({
         Edytuj
       </Button>
       <Button
-        size='small'
+        size="small"
         sx={{ color: 'black' }}
         startIcon={<DeleteIcon />}
         onClick={deleteButtonHandler}

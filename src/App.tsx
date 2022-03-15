@@ -18,13 +18,14 @@ let theme = createTheme({
 });
 
 theme = responsiveFontSizes(theme);
+
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-          <Route path='/' element={<MainPage />}></Route>
-          <Route path='/NPCPage' element={<NPCPage />}></Route>
+          <Route path="/" element={<MainPage />}></Route>
+          <Route path="/NPCPage" element={<NPCPage />}></Route>
         </Routes>
       </Router>
     </ThemeProvider>
