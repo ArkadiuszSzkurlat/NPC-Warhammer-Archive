@@ -54,7 +54,7 @@ To do:
 
 ## Acknowledgements
 - This project was inspired by [WFRP](https://cubicle7games.com/product/warhammer-fantasy-roleplay-rulebook/)
-
+- Some of the authentication functionality was created with help of this tutorial [Web Dev Simplified](https://www.youtube.com/watch?v=PKwu15ldZ7k&t)
 
 ## Contact
 Created by @ArkadiuszSzkurlat
