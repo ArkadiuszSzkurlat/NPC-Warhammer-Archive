@@ -18,10 +18,10 @@ const Skill = ({
 }) => {
   let i = index.toString();
   return (
-    <li className='npc_skills-list-item'>
+    <li className="npc_skills-list-item">
       <input
-        className='npc_skills-list-item-input'
-        type='text'
+        className="npc_skills-list-item-input"
+        type="text"
         value={text}
         name={i}
         disabled={!editable}
@@ -30,9 +30,9 @@ const Skill = ({
       {editable && (
         <IconButton
           sx={{ color: '#2e2e2e', padding: '0' }}
-          aria-label='upload picture'
-          component='span'
-          size='small'
+          aria-label="upload picture"
+          component="span"
+          size="small"
           onClick={(e: any) => {
             deleteItem(e, itemType, i);
           }}
