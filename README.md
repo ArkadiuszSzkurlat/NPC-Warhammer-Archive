@@ -1,6 +1,6 @@
 # BN-archive (PL)
 > An application that allows you to save NPC Heroes of Warhammer Fantasy Roleplay. Polish Version.
-> Live demo [_here_](https://www.example.com).
+> Live demo [_here_](bn-archive-dev).
 
 ## Table of Contents
 * [General Info](#general-information)
@@ -23,20 +23,22 @@ An application created in the React that allows you to save the NPC Heroes of th
 - CSS
 - JavaScript
 - React.js
+- Firebase
 
 
 ## Features
-List the ready features here:
+- Register, login, forgot password and delete accoun
 - Create an editable Warhammer NPC
 - Create folder where you can store NPC's
 
 
-## Setup and
-All depedencies are in package.json
+## Setup and Usage
+All depedencies are in package.json, but to run app you need a firebase.
 To start using at localhost:
 - `npm i` to install all depedencies
 - `npm start` to start react app
 
+For simple start just go to live demo [_here_](bn-archive-dev) register account with any data and login.
 
 ## Project Status
 Project is: _in progress_ 
