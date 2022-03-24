@@ -27,7 +27,7 @@ An application created in the React that allows you to save the NPC Heroes of th
 
 
 ## Features
-- Register, login, forgot password and delete accoun
+- Register, Login, Forgot password and Delete account funcionality
 - Create an editable Warhammer NPC
 - Create folder where you can store NPC's
 
