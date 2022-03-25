@@ -7,13 +7,14 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ListCardNPC from './ListCardNPC';
+import AddNPCButton from './AddNPCButton';
 
-const ListCardFolder = ({ name, index }) => {
+const ListCardFolder = ({ name, index, data }) => {
   const [clicked, setClicked] = useState(false);
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
   const [star, setStar] = useState(true);
-
+  console.log(data);
   return (
     <>
       <Card
@@ -56,7 +57,12 @@ const ListCardFolder = ({ name, index }) => {
       </Card>
       {clicked ? (
         <div className="listOfNPC">
-          <ListCardNPC name="Rogaś" />
+          {data.map((file) => {
+            console.log(file);
+            if (file.type === 'NPC')
+              return <ListCardNPC name={file.data.name} />;
+          })}
+          <AddNPCButton />
         </div>
       ) : null}
     </>

@@ -5,9 +5,9 @@ import MainList from '../components/MainList';
 
 const MainPage = () => {
   return (
-    <div className='mainpage-container'>
+    <div className="mainpage-container">
       <MainUserInfo />
-      <MainNav />
+      {/* <MainNav /> */}
       <MainList />
     </div>
   );

@@ -17,7 +17,7 @@
   flex-wrap: wrap;
   gap: 20px;
   padding-bottom: 25px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .list-folderCard {
@@ -46,7 +46,6 @@
 .listCardNPC-text {
   position: absolute;
   bottom: 0;
-  width: 100%;
   text-align: center;
   color: white;
   background: rgba(0, 0, 0, 0.5);
@@ -68,4 +67,20 @@
 
 .listCardNPC-fade:hover {
   opacity: 1;
+}
+
+.AddNPCButton {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: relative;
+  width: 125px;
+  height: 125px;
+  border-radius: 4px;
+}
+
+.addFolderButton {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: relative;
+  width: 90%;
+  min-height: 75px;
+  border-radius: 4px;
 }
