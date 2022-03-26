@@ -25,7 +25,7 @@ const UserInfo = () => {
   const handleUserLogout = async () => {
     try {
       await logout();
-      navigate('./login');
+      navigate('/login');
     } catch (err) {
       console.log(err);
     }
