@@ -1,6 +1,6 @@
 # BN-archive (PL)
 > An application that allows you to save NPC Heroes of Warhammer Fantasy Roleplay. Polish Version.
-> Live demo [_here_](bn-archive-dev).
+> Live demo [_here_](https://bn-archive-dev.netlify.app).
 
 ## Table of Contents
 * [General Info](#general-information)
