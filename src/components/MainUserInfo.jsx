@@ -4,6 +4,7 @@ import {
   Modal,
   Box,
   Paper,
+  Link,
   Button,
   ClickAwayListener,
 } from '@mui/material';
@@ -49,7 +50,9 @@ const UserInfo = () => {
 
   return (
     <div className="user-info">
-      <Typography variant="h6">{currentUser.email}</Typography>
+      <Link href="/" underline="none" sx={{ color: 'white' }}>
+        <Typography variant="h6">{currentUser.email}</Typography>
+      </Link>
       <ClickAwayListener
         onClickAway={() => {
           handleClose(setOpenSettings);
