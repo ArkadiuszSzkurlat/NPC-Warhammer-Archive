@@ -1,7 +1,7 @@
 import { IconButton } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
-const AddFolderButton = () => {
+const AddFolderButton = ({ snapshot }) => {
   return (
     <div
       className="addFolderButton"

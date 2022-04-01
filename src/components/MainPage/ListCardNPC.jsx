@@ -2,10 +2,16 @@ import { Avatar, Card, IconButton, Typography, Button } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import avatarImage from '../../resources/images/face.jpg';
 import './listcard.css';
+import { useEffect } from 'react';
 
-const ListCardNPC = ({ name }) => {
+const ListCardNPC = ({ name, provided }) => {
   return (
-    <Card className="listCardNPC">
+    <Card
+      className="listCardNPC"
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      ref={provided.innerRef}
+    >
       <img className="listCardNPC-avatar" alt="avatar" src={avatarImage} />
       <Typography className="listCardNPC-text" variant="body1">
         {name}

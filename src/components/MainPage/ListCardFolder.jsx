@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Avatar, Typography, IconButton } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -7,20 +7,27 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ListCardNPC from './ListCardNPC';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import AddNPCButton from './AddNPCButton';
 
-const ListCardFolder = ({ name, index, data }) => {
+const ListCardFolder = ({ name, index, data, provided, snapshot }) => {
   const [clicked, setClicked] = useState(false);
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
   const [star, setStar] = useState(true);
-  console.log(data);
+  useEffect(() => {
+    console.log(snapshot);
+  }, [snapshot]);
+
   return (
     <>
       <Card
         className="list-folderCard"
         sx={{ background: '#E3EDE6' }}
         elevation={8}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        ref={provided.innerRef}
       >
         <Avatar variant="square" />
 
@@ -56,14 +63,39 @@ const ListCardFolder = ({ name, index, data }) => {
         </IconButton>
       </Card>
       {clicked ? (
-        <div className="listOfNPC">
-          {data.map((file) => {
-            console.log(file);
-            if (file.type === 'NPC')
-              return <ListCardNPC name={file.data.name} />;
-          })}
-          <AddNPCButton />
-        </div>
+        <Droppable
+          droppableId={nameTest}
+          type={nameTest}
+          direction="horizontal"
+        >
+          {(provided) => (
+            <ul
+              className="listOfNPC"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={{ display: snapshot.isDraggingOver && 'none' }}
+            >
+              {data.map((file, i) => {
+                if (file.type === 'NPC')
+                  return (
+                    <Draggable key={file.id} draggableId={file.id} index={i}>
+                      {(provided) => (
+                        <ListCardNPC
+                          name={file.data.name}
+                          index={i}
+                          provided={provided}
+                          // snapshot={snapshot}
+                        />
+                      )}
+                    </Draggable>
+                  );
+              })}
+
+              <AddNPCButton />
+              {provided.placeholder}
+            </ul>
+          )}
+        </Droppable>
       ) : null}
     </>
   );

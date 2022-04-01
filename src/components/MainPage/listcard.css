@@ -13,15 +13,18 @@
 
 .listOfNPC {
   width: 90%;
+  min-height: 75px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   padding-bottom: 25px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  align-content: flex-start;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.3); */
 }
 
 .list-folderCard {
-  width: 90%;
+  width: 100%;
+  height: 75px;
   min-height: 75px;
   display: flex;
   align-items: center;
@@ -75,12 +78,14 @@
   width: 125px;
   height: 125px;
   border-radius: 4px;
+  justify-self: flex-end;
 }
 
 .addFolderButton {
   background-color: rgba(0, 0, 0, 0.4);
   position: relative;
   width: 90%;
+  height: 75px;
   min-height: 75px;
   border-radius: 4px;
 }
