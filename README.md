@@ -46,7 +46,6 @@ Project is: _in progress_
 
 ## Room for Improvement
 To do:
-- Add register and login feature
 - Create a database where NPCs will be stored
 - Host app 
 - Add some small ads or patreon link
