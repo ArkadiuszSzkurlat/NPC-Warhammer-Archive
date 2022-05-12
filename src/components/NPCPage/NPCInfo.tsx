@@ -123,7 +123,7 @@ const NPCInfo = ({
           />
         </div>
         {/* Main info */}
-        <div style={{ color: 'white' }}>
+        <div className="npc-mainInfo">
           {NPCBasicInfo.map((info, i) => {
             return (
               <BasicInfo

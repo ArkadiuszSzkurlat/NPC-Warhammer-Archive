@@ -4,12 +4,12 @@
   background-color: #65695b;
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 1fr 85%;
+  grid-template-rows: 10% 80%;
   overflow: hidden;
 }
 
 .mainpage-container--NPCPAGE {
-  grid-template-rows: 1fr 1fr 70%;
+  grid-template-rows: 10% 7.5% 82.5%;
 }
 
 .login-page {

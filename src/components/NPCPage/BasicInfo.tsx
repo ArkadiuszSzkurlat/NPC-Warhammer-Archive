@@ -12,9 +12,10 @@ const BasicInfo = ({
   infoType: { eng: string; pl: string };
 }) => {
   return (
-    <Typography variant="body1">
+    <Typography variant="body1" className="npc-mainInfo--BasicInfo">
       {infoType.pl + ': '}
       <input
+        style={{ display: 'inline-block' }}
         type="text"
         value={NPC[infoType.eng]}
         disabled={!editable}

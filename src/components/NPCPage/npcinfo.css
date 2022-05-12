@@ -21,11 +21,14 @@ input {
 
 .npc-top-avatar {
   position: relative;
-  height: 150px;
-  width: 150px;
+
+  height: auto;
+  width: 250px;
+  margin: 15px;
 }
 
 .npc-top-avatar-img {
+  object-fit: cover;
   height: 100%;
   width: 100%;
 }
@@ -41,6 +44,21 @@ input {
   height: 25%;
 }
 
+.npc-mainInfo {
+  width: 50%;
+  height: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.npc-mainInfo--BasicInfo {
+  width: 75%;
+}
 .npc_stats {
 }
 
