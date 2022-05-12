@@ -24,14 +24,14 @@ const NPCPage = () => {
   });
 
   return (
-    <div className="mainpage-container">
+    <div className="mainpage-container mainpage-container--NPCPAGE">
       <MainUserInfo />
-      {/* <NPCNav
+      <NPCNav
         editable={editable}
         setEditable={setEditable}
         saved={saved}
         setSaved={setSaved}
-      /> */}
+      />
       <NPCInfo editable={editable} NPC={NPC} setNPC={setNPC} saved={saved} />
     </div>
   );

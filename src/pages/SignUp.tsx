@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const SignUp = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
 
@@ -15,17 +15,23 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+    if (
+      passwordRef.current &&
+      passwordConfirmRef.current &&
+      passwordRef.current.value !== passwordConfirmRef.current.value
+    ) {
       return setError('Passwords do not match');
     }
 
     try {
       setError('');
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      emailRef.current &&
+        passwordRef.current &&
+        signup(emailRef.current.value, passwordRef.current.value);
     } catch (err) {
       setError(
         'Nie udało się stworzyć konta. Konto z takim mailem już istnieje, hasło jest za krótkie lub błędnie potwierdzone'

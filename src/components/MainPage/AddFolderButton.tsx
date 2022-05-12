@@ -1,10 +1,11 @@
 import { IconButton } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
-const AddFolderButton = ({ snapshot }) => {
+const AddFolderButton = ({ snapshot }: { snapshot: any }) => {
   return (
     <div
       className="addFolderButton"
+      // @ts-ignore: Unreachable code error
       sx={{ background: '#E3EDE6' }}
       elevation={8}
     >

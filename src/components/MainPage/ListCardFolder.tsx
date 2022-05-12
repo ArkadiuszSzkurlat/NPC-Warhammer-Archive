@@ -10,7 +10,19 @@ import ListCardNPC from './ListCardNPC';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import AddNPCButton from './AddNPCButton';
 
-const ListCardFolder = ({ name, index, data, provided, snapshot }) => {
+const ListCardFolder = ({
+  name,
+  data,
+  i,
+  provided,
+  snapshot,
+}: {
+  name: string;
+  data: any;
+  i: number;
+  provided: any;
+  snapshot: any;
+}) => {
   const [clicked, setClicked] = useState(false);
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
@@ -41,12 +53,16 @@ const ListCardFolder = ({ name, index, data, provided, snapshot }) => {
           }}
         />
         <IconButton onClick={() => setStar(!star)}>
-          <StarIcon sx={{ color: star && '#c9c600' }} />
+          <StarIcon
+            // @ts-ignore: Unreachable code error
+            sx={{ color: star && '#c9c600' }}
+          />
         </IconButton>
         <IconButton>
           <DeleteOutlineIcon />
         </IconButton>
         <IconButton
+          // @ts-ignore: Unreachable code error
           sx={{ color: !editable && '#b05217' }}
           onClick={() => {
             setEditable(!editable);
@@ -75,14 +91,13 @@ const ListCardFolder = ({ name, index, data, provided, snapshot }) => {
               ref={provided.innerRef}
               style={{ display: snapshot.isDraggingOver && 'none' }}
             >
-              {data.map((file, i) => {
+              {data.map((file: any, i: number) => {
                 if (file.type === 'NPC')
                   return (
                     <Draggable key={file.id} draggableId={file.id} index={i}>
                       {(provided) => (
                         <ListCardNPC
                           name={file.data.name}
-                          index={i}
                           provided={provided}
                           // snapshot={snapshot}
                         />

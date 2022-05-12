@@ -4,6 +4,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
+import { Dispatch, SetStateAction } from 'react';
 
 const NPCNav = ({
   editable,
@@ -11,17 +12,17 @@ const NPCNav = ({
   saved,
   setSaved,
 }: {
-  editable: any;
+  editable: boolean;
   setEditable: any;
-  saved: any;
+  saved: boolean;
   setSaved: any;
 }) => {
   // FIXME Hook powinien się zmieniać po zapisaniu na false
-  const saveButtonHandler = () => {
+  const saveButtonHandler = (): void => {
     setSaved(!saved);
   };
 
-  const deleteButtonHandler = () => {
+  const deleteButtonHandler = (): void => {
     //TODO usunięcie postaci z bazy, lepiej żeby popuot był z material ui
     if (window.confirm('Na pewno chcesz usunąć postać?')) {
       console.log('Usunąłeś postać');

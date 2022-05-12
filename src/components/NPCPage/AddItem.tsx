@@ -1,13 +1,19 @@
 import { IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-const AddItem = ({ itemType, addListItem }) => {
+const AddItem = ({
+  itemType,
+  addListItem,
+}: {
+  itemType: string;
+  addListItem: (itemType: string) => void;
+}) => {
   return (
     <IconButton
       sx={{ color: '#2e2e2e', padding: '0' }}
-      aria-label='upload picture'
-      component='span'
-      size='small'
+      aria-label="upload picture"
+      component="span"
+      size="small"
       onClick={() => {
         addListItem(itemType);
       }}

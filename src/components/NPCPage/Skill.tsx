@@ -9,16 +9,17 @@ const Skill = ({
   itemType,
   deleteItem,
 }: {
-  editable: any;
+  editable: boolean;
   text: string;
   index: number;
-  handleChange: any;
+  handleChange: (e: unknown, thing: string, i: string) => {};
   itemType: string;
-  deleteItem: any;
+  deleteItem: (e: unknown, item: string, i: string) => {};
 }) => {
   let i = index.toString();
+
   return (
-    <li className="npc_skills-list-item">
+    <li className="npc_skills-list-item" style={{ paddingBottom: '5px' }}>
       <input
         className="npc_skills-list-item-input"
         type="text"
@@ -33,7 +34,7 @@ const Skill = ({
           aria-label="upload picture"
           component="span"
           size="small"
-          onClick={(e: any) => {
+          onClick={(e: React.MouseEvent<HTMLElement>) => {
             deleteItem(e, itemType, i);
           }}
         >

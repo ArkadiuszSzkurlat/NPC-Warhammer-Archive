@@ -2,9 +2,10 @@ import { Avatar, Card, IconButton, Typography, Button } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import avatarImage from '../../resources/images/face.jpg';
 import './listcard.css';
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const ListCardNPC = ({ name, provided }) => {
+const ListCardNPC = ({ name, provided }: { name: any; provided: any }) => {
+  const navigate = useNavigate();
   return (
     <Card
       className="listCardNPC"
@@ -28,10 +29,18 @@ const ListCardNPC = ({ name, provided }) => {
             height: '32.5px',
             borderRadius: '0 0 0 20px',
           }}
+          size="small"
         >
-          <DeleteOutlineIcon size="small" />
+          <DeleteOutlineIcon />
         </IconButton>
-        <Button variant="contained" color="primary" size="small">
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={() => {
+            navigate('/npcpage');
+          }}
+        >
           Edytuj
         </Button>
       </div>

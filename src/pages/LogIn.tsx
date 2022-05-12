@@ -3,26 +3,28 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-const ForgotPassword = () => {
-  const emailRef = useRef();
+const LogIn = () => {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { resetPassword } = useAuth();
+  const { login, currentUser } = useAuth();
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
       setError('');
       setLoading(true);
-      await resetPassword(emailRef.current.value);
-      setMessage('Na mail został wysłany link z dalszymi instrukcjami');
+      if (emailRef.current && passwordRef.current) {
+        await login(emailRef.current.value, passwordRef.current.value);
+      }
+      navigate('/');
     } catch (err) {
-      setError('Nie udało się zresetować hasła');
+      setError('Nie udało się zalogować. Sprawdź poprawność danych');
       console.log(err);
     }
     setLoading(false);
@@ -32,18 +34,20 @@ const ForgotPassword = () => {
     <div className="login-page">
       <form className="login-container" onSubmit={handleSubmit}>
         {error && <Alert severity="error">{error}</Alert>}
-        {message && <Alert severity="success">{message}</Alert>}
         <TextField label="E-mail" inputRef={emailRef} type="email" />
+        <TextField label="Hasło" inputRef={passwordRef} type="password" />
 
         <Button variant="contained" type="submit" disabled={loading}>
-          Zresetuj Hasło
+          Zaloguj się
         </Button>
 
-        <Button onClick={() => navigate('/login')}>Zaloguj się</Button>
+        <Button onClick={() => navigate('/forgot-password')}>
+          Zapomniałeś hasła?
+        </Button>
         <Button onClick={() => navigate('/signup')}>Zarejestruj się</Button>
       </form>
     </div>
   );
 };
 
-export default ForgotPassword;
+export default LogIn;

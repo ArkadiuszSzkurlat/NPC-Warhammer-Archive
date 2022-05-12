@@ -41,10 +41,15 @@ const UserInfo = () => {
     }
   };
 
-  const handleOpen = (stateValue, StateHook) => {
+  const handleOpen = (
+    stateValue: boolean,
+    StateHook: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     StateHook(!stateValue);
   };
-  const handleClose = (StateHook) => {
+  const handleClose = (
+    StateHook: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     StateHook(false);
   };
 

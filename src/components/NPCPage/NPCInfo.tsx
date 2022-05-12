@@ -1,15 +1,32 @@
 import { ListItem, Typography, IconButton } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 import './npcinfo.css';
 import AvatarImg from '../../resources/images/face.jpg';
 import StatInput from './StatInput';
 import Skill from './Skill';
 import BasicInfo from './BasicInfo';
 import AddItem from './AddItem';
+import { AnyNaptrRecord } from 'dns';
 
-const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
+interface BasicInfoNPC {
+  eng: string;
+  pl: string;
+}
+
+const NPCInfo = ({
+  editable,
+  NPC,
+  setNPC,
+  saved,
+}: {
+  editable: boolean;
+  NPC: any;
+  setNPC: any;
+  saved: boolean;
+}) => {
   const [NPCStats, setNPCStats] = useState(NPC.stats);
-  let NPCBasicInfo = [
+
+  let NPCBasicInfo: BasicInfoNPC[] = [
     { eng: 'race', pl: 'Rasa' },
     { eng: 'class', pl: 'Klasa' },
     { eng: 'status', pl: 'Status' },
@@ -18,54 +35,54 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
   ];
 
   //Zmienia staty postaci
-  const handleChangeNPCStats = (e, i) => {
-    const { name, value } = e.target;
+  const handleChangeNPCStats = (e: any) => {
+    const { name, value }: { name: string; value: string } = e.target;
     const valueNumber = Number(value);
 
     let NPCStatsLET = NPC.stats;
     NPCStatsLET[name] = valueNumber;
 
-    setNPCStats((prevState) => ({
+    setNPCStats((prevState: any) => ({
       ...prevState,
       [name]: valueNumber,
     }));
   };
 
-  const singleListItemChange = async (e, thing, i) => {
+  const singleListItemChange = async (e: any, thing: any, i: any) => {
     const { name, value } = e.target;
 
     let NPCThings = NPC[thing];
     NPCThings[name] = value;
 
-    setNPC((prevState) => ({
+    setNPC((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  const addListItem = async (thing) => {
+  const addListItem = async (thing: any) => {
     let NPCThings = NPC[thing];
     NPCThings.push('');
 
-    setNPC((prevState) => ({
+    setNPC((prevState: any) => ({
       ...prevState,
       [thing]: NPCThings,
     }));
   };
 
-  const deleteItem = async (e, thing, i) => {
+  const deleteItem = async (e: any, thing: any, i: any) => {
     let NPCThings = NPC[thing];
     NPCThings.splice(i, 1);
 
-    setNPC((prevState) => ({
+    setNPC((prevState: any) => ({
       ...prevState,
       [thing]: NPCThings,
     }));
   };
 
-  const handleSingleItemChange = async (e, type, i) => {
+  const handleSingleItemChange = async (e: any, type: any) => {
     const { name, value } = e.target;
-    setNPC((prevState) => ({
+    setNPC((prevState: any) => ({
       ...prevState,
       [type]: value,
     }));
@@ -76,7 +93,7 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
   useEffect(() => {
     if (!editable && saved) {
       let NPCStatsLET = Object.values(NPCStats);
-      setNPC((prevState) => ({
+      setNPC((prevState: any) => ({
         ...prevState,
         stats: NPCStatsLET,
       }));
@@ -136,7 +153,7 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
         </tr>
         <tr>
           {NPC.stats &&
-            NPC.stats.map((stat, index) => {
+            NPC.stats.map((stat: any, index: any) => {
               return (
                 <th>
                   <StatInput
@@ -156,9 +173,8 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
           Umiejętności
         </Typography>
         <ul className="npc_skills-list">
-          {NPC.skills.map((skill, index) => (
+          {NPC.skills.map((skill: any, index: any) => (
             <Skill
-              style={{ paddingBottom: '5px' }}
               text={skill}
               itemType={'skills'}
               index={index}
@@ -178,9 +194,8 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
           Talenty
         </Typography>
         <ul className="npc_skills-list">
-          {NPC.talents.map((item, index) => (
+          {NPC.talents.map((item: any, index: any) => (
             <Skill
-              style={{ paddingBottom: '5px' }}
               text={item}
               index={index}
               itemType={'talents'}
@@ -201,9 +216,8 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
         </Typography>
         <ul className="npc_skills-list">
           {NPC.items &&
-            NPC.items.map((item, index) => (
+            NPC.items.map((item: any, index: any) => (
               <Skill
-                style={{ paddingBottom: '5px' }}
                 text={item}
                 index={index}
                 itemType={'items'}
@@ -222,7 +236,6 @@ const NPCInfo = ({ editable, NPC, setNPC, saved }) => {
         </Typography>
         <textarea
           className="npc_skills--textArea"
-          type="text"
           value={NPC.description}
           disabled={!editable}
           onChange={(e) => {

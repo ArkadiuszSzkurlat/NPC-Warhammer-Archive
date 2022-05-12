@@ -1,5 +1,3 @@
-import React from 'react';
-
 const StatInput = ({
   stat,
   index,
@@ -9,20 +7,22 @@ const StatInput = ({
   stat: number;
   index: number;
   editable: boolean;
-  handleChange: any;
+  handleChange: (e: MouseEvent) => void;
 }) => {
   let i = index.toString();
 
   return (
     <input
-      className='npc_stats-single'
-      type='number'
+      className="npc_stats-single"
+      type="number"
       value={stat}
       name={i}
       disabled={!editable}
-      onChange={handleChange}
-      min='1'
-      max='100'
+      onChange={(e: any) => {
+        handleChange(e);
+      }}
+      min="1"
+      max="100"
     ></input>
   );
 };
