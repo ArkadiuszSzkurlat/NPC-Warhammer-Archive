@@ -102,9 +102,6 @@ const NPCInfo = ({
     }
   }, [saved]);
 
-  useEffect(() => {
-    console.log(NPC);
-  }, [NPC]);
   return (
     <div className="npc">
       {/* TOP */}

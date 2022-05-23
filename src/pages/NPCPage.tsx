@@ -8,7 +8,21 @@ const NPCPage = () => {
   const [editable, setEditable] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  const [NPC, setNPC] = useState({
+  interface NPCArchetype {
+    name: string;
+    race: string;
+    class: string;
+    status: string;
+    age: number;
+    height: number;
+    stats: Array<number>;
+    skills: Array<string>;
+    talents: Array<string>;
+    items: Array<string>;
+    description: string;
+  }
+
+  const [NPC, setNPC] = useState<NPCArchetype>({
     name: 'Reaper Rogaś',
     race: 'Niziołek',
     class: 'N/A',
@@ -31,6 +45,7 @@ const NPCPage = () => {
         setEditable={setEditable}
         saved={saved}
         setSaved={setSaved}
+        NPC={NPC}
       />
       <NPCInfo editable={editable} NPC={NPC} setNPC={setNPC} saved={saved} />
     </div>

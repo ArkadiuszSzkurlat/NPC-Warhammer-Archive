@@ -11,6 +11,7 @@ import {
 } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from 'react';
+import { getNPCs } from '../firebase';
 
 resetServerContext();
 
@@ -33,71 +34,11 @@ let files = [
         'Rogaś to niziołek banita, całe życie zajmuje się napadaniem na ludzi. Nie atakuje on jednak bezbronnych ludzi ale stara się wybierać swoje cele ze względu na ich podejście do niższych warstw społecznych',
     },
   },
-  {
-    id: uuidv4(),
-    type: 'NPC',
-    data: {
-      name: 'Clementine',
-      race: 'Człowiek',
-      class: 'N/A',
-      status: 'Złoto 1',
-      age: 17,
-      height: 110,
-      stats: [45, 56, 45, 35, 45, 26, 35, 36, 42, 33],
-      skills: ['Magia Prosta (51)', 'Alchemia (76)'],
-      talents: ['Widzenie w ciemmności', 'Oburęczność'],
-      items: ['Broń +6', 'Czapka', 'Skórzana kurta (PP 1)'],
-      description:
-        'Rogaś to niziołek banita, całe życie zajmuje się napadaniem na ludzi. Nie atakuje on jednak bezbronnych ludzi ale stara się wybierać swoje cele ze względu na ich podejście do niższych warstw społecznych',
-    },
-  },
-  {
-    id: uuidv4(),
-    type: 'files',
-    name: 'Ubersreik',
-    data: [
-      {
-        id: uuidv4(),
-        type: 'NPC',
-        data: {
-          name: 'Galmarnel',
-          race: 'Elf',
-          class: 'N/A',
-          status: 'Brąz 3',
-          age: 17,
-          height: 110,
-          stats: [45, 56, 45, 35, 45, 26, 35, 36, 42, 33],
-          skills: ['Magia Prosta (51)', 'Alchemia (76)'],
-          talents: ['Widzenie w ciemmności', 'Oburęczność'],
-          items: ['Broń +6', 'Czapka', 'Skórzana kurta (PP 1)'],
-          description:
-            'Rogaś to niziołek banita, całe życie zajmuje się napadaniem na ludzi. Nie atakuje on jednak bezbronnych ludzi ale stara się wybierać swoje cele ze względu na ich podejście do niższych warstw społecznych',
-        },
-      },
-      {
-        id: uuidv4(),
-        type: 'NPC',
-        data: {
-          name: 'Kara',
-          race: 'Człowiek',
-          class: 'Ochroniarz',
-          status: 'Srebro 3',
-          age: 17,
-          height: 110,
-          stats: [45, 56, 45, 35, 45, 26, 35, 36, 42, 33],
-          skills: ['Magia Prosta (51)', 'Alchemia (76)'],
-          talents: ['Widzenie w ciemmności', 'Oburęczność'],
-          items: ['Broń +6', 'Czapka', 'Skórzana kurta (PP 1)'],
-          description:
-            'Rogaś to niziołek banita, całe życie zajmuje się napadaniem na ludzi. Nie atakuje on jednak bezbronnych ludzi ale stara się wybierać swoje cele ze względu na ich podejście do niższych warstw społecznych',
-        },
-      },
-    ],
-  },
 ];
 
 const MainList = () => {
   const [characters, updateCharacters] = useState(files);
+  const [NPCharacters, setNPCharacters] = useState();
   const [mainListSnapshot, setMainListSnapshot] = useState();
   const Reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -105,6 +46,12 @@ const MainList = () => {
     result.splice(endIndex, 0, removed);
     return result;
   };
+
+  useEffect(() => {
+    getNPCs().then((res) => {
+      setNPCharacters(res);
+    });
+  }, []);
 
   const handleonDragEnd = (result) => {
     console.log('RESULT', result);
@@ -150,35 +97,36 @@ const MainList = () => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {characters.map((file, i) => {
-                if (file.type === 'files') {
-                  return (
-                    <Draggable key={file.id} draggableId={file.id} index={i}>
-                      {(provided) => (
-                        <ListCardFolder
-                          name={file.name}
-                          data={file.data}
-                          index={i}
-                          provided={provided}
-                          snapshot={mainListSnapshot}
-                        />
-                      )}
-                    </Draggable>
-                  );
-                } else if (file.type === 'NPC') {
-                  return (
-                    <Draggable key={file.id} draggableId={file.id} index={i}>
-                      {(provided) => (
+              {
+                NPCharacters &&
+                  NPCharacters.map((file, i) => {
+                    let randomID = uuidv4();
+                    return (
+                      <>
                         <ListCardNPC
-                          name={file.data.name}
+                          name={file}
                           index={i}
                           provided={provided}
                         />
-                      )}
-                    </Draggable>
-                  );
-                } else return;
-              })}
+                      </>
+                    );
+                    // return (
+                    //   <Draggable key={file.id} draggableId={file.id} index={i}>
+                    //   {(provided) => (
+                    //     <ListCardFolder
+                    //       name={file.name}
+                    //       data={file.data}
+                    //       index={i}
+                    //       provided={provided}
+                    //       snapshot={mainListSnapshot}
+                    //     />
+                    //   )}
+                    // </Draggable>
+                    // );
+                  })
+                // else return;
+              }
+              <AddNPCButton />
               {!snapshot.isDraggingOver && (
                 <AddFolderButton snapshot={mainListSnapshot} />
               )}
