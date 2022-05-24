@@ -3,21 +3,41 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import avatarImage from '../../resources/images/face.jpg';
 import './listcard.css';
 import { useNavigate } from 'react-router-dom';
+import { deleteNPC, getSpecificNPC } from '../../firebase';
 
-const ListCardNPC = ({ name, provided }: { name: any; provided: any }) => {
+const ListCardNPC = ({ name }: { name: any }) => {
   const navigate = useNavigate();
+
+  const editButtonHandler = (e: any): void => {
+    getSpecificNPC(e.target.value);
+    navigate('/npcpage');
+  };
+
+  const deleteButtonHandler = (): void => {
+    if (window.confirm('Na pewno chcesz usunąć postać?')) {
+      deleteNPC(name);
+      navigate('/');
+    } else {
+      console.log('Anulowałeś usuwanie postaci');
+    }
+  };
+
   return (
-    <Card
-      className="listCardNPC"
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
-      ref={provided.innerRef}
-    >
+    <Card className="listCardNPC">
       <img className="listCardNPC-avatar" alt="avatar" src={avatarImage} />
       <Typography className="listCardNPC-text" variant="body1">
         {name}
       </Typography>
       <div className="listCardNPC-fade">
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          value={name}
+          onClick={editButtonHandler}
+        >
+          Edytuj
+        </Button>
         <IconButton
           sx={{
             position: 'absolute',
@@ -30,19 +50,10 @@ const ListCardNPC = ({ name, provided }: { name: any; provided: any }) => {
             borderRadius: '0 0 0 20px',
           }}
           size="small"
+          onClick={deleteButtonHandler}
         >
           <DeleteOutlineIcon />
         </IconButton>
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          onClick={() => {
-            navigate('/npcpage');
-          }}
-        >
-          Edytuj
-        </Button>
       </div>
     </Card>
   );

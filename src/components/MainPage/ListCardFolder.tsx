@@ -98,7 +98,6 @@ const ListCardFolder = ({
                       {(provided) => (
                         <ListCardNPC
                           name={file.data.name}
-                          provided={provided}
                           // snapshot={snapshot}
                         />
                       )}

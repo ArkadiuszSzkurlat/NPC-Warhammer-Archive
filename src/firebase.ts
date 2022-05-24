@@ -1,7 +1,14 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import { getDocs, getFirestore } from 'firebase/firestore';
-import { doc, collection, setDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import {
+  getDoc,
+  getDocs,
+  getFirestore,
+  doc,
+  collection,
+  setDoc,
+  deleteDoc,
+} from 'firebase/firestore';
 
 const app = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -63,10 +70,21 @@ export const getNPCs = async () => {
     const querySnapshot = await getDocs(
       collection(db, 'users', auth.currentUser.email, 'files')
     );
+
     let NPCS: string[] = [];
+
     querySnapshot.forEach((doc) => {
       NPCS.push(doc.id);
     });
     return NPCS;
+  }
+};
+
+export const getSpecificNPC = async (name: string) => {
+  if (auth.currentUser?.email) {
+    const NPC = await getDoc(
+      doc(db, 'users', auth.currentUser.email, 'files', name)
+    );
+    console.log(NPC.data());
   }
 };

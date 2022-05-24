@@ -35,7 +35,13 @@
 }
 
 .user-info {
-  background-color: #5c693c;
+  /* background-color: #5c693c;   */
+  /* background-image: url('../resources/images/ramka.png'); */
+  background-image: url(https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
+  object-fit: fill;
+  -webkit-box-shadow: inset 0px 0px 24px 0px rgba(66, 68, 90, 1);
+  -moz-box-shadow: inset 0px 0px 24px 0px rgba(66, 68, 90, 1);
+  box-shadow: inset 0px 0px 24px 0px rgba(66, 68, 90, 1);
   color: white;
   display: flex;
   justify-content: space-around;
