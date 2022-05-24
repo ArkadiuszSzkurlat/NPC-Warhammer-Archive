@@ -6,26 +6,40 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import { addEditNPC, deleteNPC } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const NPCNav = ({
   editable,
   setEditable,
   saved,
   setSaved,
-  NPC,
 }: {
   editable: boolean;
   setEditable: any;
   saved: boolean;
   setSaved: any;
-  NPC: any;
 }) => {
   const navigate = useNavigate();
+  const NPCSlice = useSelector((state: any) => state.NPCSlice);
+  const [NPC, setNPC] = useState(NPCSlice);
+
+  useEffect(() => {
+    setNPC(NPCSlice);
+  }, [NPCSlice]);
   // FIXME Hook powinien się zmieniać po zapisaniu na false
   const saveButtonHandler = (): void => {
-    setSaved(!saved);
+    setSaved(true);
     if (saved === false) {
-      addEditNPC(NPC);
+      console.log(NPC);
+      if (NPC.name) {
+        addEditNPC(NPC);
+      } else {
+        alert('Postać musi mieć przynajmniej imię');
+      }
+
+      setTimeout(() => {
+        setSaved(false);
+      }, 500);
     }
   };
 

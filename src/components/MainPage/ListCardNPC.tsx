@@ -3,19 +3,34 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import avatarImage from '../../resources/images/face.jpg';
 import './listcard.css';
 import { useNavigate } from 'react-router-dom';
-import { deleteNPC, getSpecificNPC } from '../../firebase';
+import { deleteNPC, getSpecificNPC, getNPCs } from '../../firebase';
+import { useDispatch } from 'react-redux';
+import { changeNPCStats, NPCArchetype } from '../../redux/NPCSlice';
+import { setNPCharacters } from '../../redux/NPCharactersSlice';
 
 const ListCardNPC = ({ name }: { name: any }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const editButtonHandler = (e: any): void => {
-    getSpecificNPC(e.target.value);
+    getSpecificNPC(e.target.value).then((NPCstats: any) =>
+      dispatch(changeNPCStats(NPCstats.data()))
+    );
     navigate('/npcpage');
   };
 
   const deleteButtonHandler = (): void => {
     if (window.confirm('Na pewno chcesz usunąć postać?')) {
       deleteNPC(name);
+      getNPCs()
+        .then((res) => {
+          if (res) {
+            dispatch(setNPCharacters([...res]));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       navigate('/');
     } else {
       console.log('Anulowałeś usuwanie postaci');

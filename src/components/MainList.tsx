@@ -9,14 +9,18 @@ import {
   Draggable,
   resetServerContext,
 } from 'react-beautiful-dnd';
-import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from 'react';
 import { getNPCs } from '../firebase';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setNPCharacters } from '../redux/NPCharactersSlice';
 resetServerContext();
 
 const MainList = () => {
-  const [NPCharacters, setNPCharacters] = useState<string[] | null>(null);
+  const NPCharacters = useSelector(
+    (state: any) => state.NPCharactersSlice.names
+  );
+  // TODO dispatch nie działa
+  const dispatch = useDispatch();
   // const [mainListSnapshot, setMainListSnapshot] = useState();
   // const Reorder = (list, startIndex, endIndex) => {
   //   const result = Array.from(list);
@@ -29,12 +33,13 @@ const MainList = () => {
     getNPCs()
       .then((res) => {
         if (res) {
-          setNPCharacters(res);
+          dispatch(setNPCharacters([...res]));
         }
       })
       .catch((err) => {
         console.log(err);
       });
+    console.log(NPCharacters);
   }, []);
 
   // const handleonDragEnd = (result) => {
@@ -73,7 +78,7 @@ const MainList = () => {
   return (
     <ul className="listOfNPC">
       {NPCharacters &&
-        NPCharacters.map((file, i) => {
+        NPCharacters.map((file: string, i: number) => {
           return (
             <>
               <ListCardNPC name={file} key={`NPC-${i}`} />

@@ -9,6 +9,7 @@ import {
   setDoc,
   deleteDoc,
 } from 'firebase/firestore';
+import { NPCArchetype } from './redux/NPCSlice';
 
 const app = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -19,20 +20,6 @@ const app = firebase.initializeApp({
   appId: process.env.REACT_APP_FIREBASE_APP_APP_ID,
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 });
-
-interface NPCArchetype {
-  name: string;
-  race: string;
-  class: string;
-  status: string;
-  age: number;
-  height: number;
-  stats: Array<number>;
-  skills: Array<string>;
-  talents: Array<string>;
-  items: Array<string>;
-  description: string;
-}
 
 export default app;
 
@@ -52,9 +39,10 @@ export const addEditNPC = (data: NPCArchetype): void => {
   if (auth.currentUser?.email) {
     setDoc(doc(db, 'users', auth.currentUser.email, 'files', data.name), data)
       .then(() => {
-        console.log('data added');
+        alert('Pomyślnie zapisano postać');
       })
       .catch((err) => {
+        alert('Wystąpił błąd przy zapisywaniu postaci');
         console.log(err);
       });
   }
@@ -85,6 +73,6 @@ export const getSpecificNPC = async (name: string) => {
     const NPC = await getDoc(
       doc(db, 'users', auth.currentUser.email, 'files', name)
     );
-    console.log(NPC.data());
+    return NPC;
   }
 };

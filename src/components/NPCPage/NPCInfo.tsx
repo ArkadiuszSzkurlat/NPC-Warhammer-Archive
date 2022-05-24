@@ -6,7 +6,8 @@ import StatInput from './StatInput';
 import Skill from './Skill';
 import BasicInfo from './BasicInfo';
 import AddItem from './AddItem';
-import { AnyNaptrRecord } from 'dns';
+import { useDispatch } from 'react-redux';
+import { NPCArchetype, changeNPCStats } from '../../redux/NPCSlice';
 
 interface BasicInfoNPC {
   eng: string;
@@ -24,7 +25,12 @@ const NPCInfo = ({
   setNPC: any;
   saved: boolean;
 }) => {
+  const dispatch = useDispatch();
   const [NPCStats, setNPCStats] = useState(NPC.stats);
+
+  useEffect(() => {
+    setNPCStats(NPC.stats);
+  }, [NPC.stats]);
 
   let NPCBasicInfo: BasicInfoNPC[] = [
     { eng: 'race', pl: 'Rasa' },
@@ -36,32 +42,30 @@ const NPCInfo = ({
 
   //Zmienia staty postaci
   const handleChangeNPCStats = (e: any) => {
-    const { name, value }: { name: string; value: string } = e.target;
-    const valueNumber = Number(value);
+    const { name, value }: { name: number; value: number } = e.target;
 
-    let NPCStatsLET = NPC.stats;
-    NPCStatsLET[name] = valueNumber;
-
-    setNPCStats((prevState: any) => ({
+    let NPCStatsLET = [...NPCStats];
+    NPCStatsLET[name] = +value;
+    setNPCStats(NPCStatsLET);
+    setNPC((prevState: any) => ({
       ...prevState,
-      [name]: valueNumber,
+      ['stats']: NPCStatsLET,
     }));
   };
 
   const singleListItemChange = async (e: any, thing: any, i: any) => {
     const { name, value } = e.target;
 
-    let NPCThings = NPC[thing];
+    let NPCThings = [...NPC[thing]];
     NPCThings[name] = value;
-
     setNPC((prevState: any) => ({
       ...prevState,
-      [name]: value,
+      [thing]: NPCThings,
     }));
   };
 
   const addListItem = async (thing: any) => {
-    let NPCThings = NPC[thing];
+    let NPCThings = [...NPC[thing]];
     NPCThings.push('');
 
     setNPC((prevState: any) => ({
@@ -71,7 +75,7 @@ const NPCInfo = ({
   };
 
   const deleteItem = async (e: any, thing: any, i: any) => {
-    let NPCThings = NPC[thing];
+    let NPCThings = [...NPC[thing]];
     NPCThings.splice(i, 1);
 
     setNPC((prevState: any) => ({
@@ -91,16 +95,13 @@ const NPCInfo = ({
   //zapis zmian
   let started = true;
   useEffect(() => {
-    if (!editable && saved) {
-      let NPCStatsLET = Object.values(NPCStats);
-      setNPC((prevState: any) => ({
-        ...prevState,
-        stats: NPCStatsLET,
-      }));
-    } else if (editable && saved) {
-      alert('Musisz wyłączyć opcje edytowania');
-    }
-  }, [saved]);
+    console.log(NPC);
+    setNPC((prevState: any) => ({
+      ...prevState,
+      stats: NPCStats,
+    }));
+    dispatch(changeNPCStats(NPC));
+  }, [editable]);
 
   return (
     <div className="npc">
@@ -149,8 +150,8 @@ const NPCInfo = ({
           <th>Ogd</th>
         </tr>
         <tr>
-          {NPC.stats &&
-            NPC.stats.map((stat: any, index: any) => {
+          {NPCStats &&
+            NPCStats.map((stat: any, index: any) => {
               return (
                 <th>
                   <StatInput
