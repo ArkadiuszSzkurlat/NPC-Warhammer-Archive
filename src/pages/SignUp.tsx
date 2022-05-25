@@ -13,6 +13,7 @@ const SignUp = () => {
   const { signup } = useAuth();
 
   const [error, setError] = useState('');
+  const [registerSuccesful, setRegisterSuccesful] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: any) => {
@@ -29,9 +30,15 @@ const SignUp = () => {
     try {
       setError('');
       setLoading(true);
+
       emailRef.current &&
         passwordRef.current &&
         signup(emailRef.current.value, passwordRef.current.value);
+
+      setRegisterSuccesful(true);
+      setTimeout(() => {
+        setRegisterSuccesful(false);
+      }, 30000);
     } catch (err) {
       setError(
         'Nie udało się stworzyć konta. Konto z takim mailem już istnieje, hasło jest za krótkie lub błędnie potwierdzone'
@@ -45,6 +52,11 @@ const SignUp = () => {
     <div className="login-page">
       <form className="login-container" onSubmit={handleSubmit}>
         {error && <Alert severity="error">{error}</Alert>}
+        {registerSuccesful && (
+          <Alert severity="success">
+            Udało się! Możesz się zalogować i zapisywać swoich BN-ów
+          </Alert>
+        )}
 
         <TextField label="E-mail" inputRef={emailRef} type="email" />
         <TextField label="Hasło" inputRef={passwordRef} type="password" />
