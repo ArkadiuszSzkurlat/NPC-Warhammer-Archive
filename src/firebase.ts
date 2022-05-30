@@ -78,8 +78,8 @@ export const deleteNPC = (name: string) => {
     deleteDoc(doc(db, 'users', auth.currentUser.email, 'files', name));
 };
 
-export const getNPCs = async () => {
-  if (auth.currentUser?.email) {
+export const getNPCs = async (thing = 'main') => {
+  if (auth.currentUser?.email && thing === 'main') {
     const filesSnapshot = await getDocs(
       collection(db, 'users', auth.currentUser.email, 'files')
     );
@@ -90,18 +90,17 @@ export const getNPCs = async () => {
     });
     return NPCS;
   }
-  // albo tutaj zrobić że za każdym razem się sciągają NPC i trzeba parametry zmienić
-  // if (auth.currentUser?.email) {
-  //   const filesSnapshot = await getDocs(
-  //     collection(db, 'users', auth.currentUser.email, 'folders', data.)
-  //   );
-  //   let NPCS: string[] = [];
+  if (auth.currentUser?.email && thing !== 'main') {
+    const filesSnapshot = await getDocs(
+      collection(db, 'users', auth.currentUser.email, 'folders', thing, 'files')
+    );
+    let NPCS: string[] = [];
 
-  //   filesSnapshot.forEach((doc) => {
-  //     NPCS.push(doc.id);
-  //   });
-  //   return NPCS;
-  // }
+    filesSnapshot.forEach((doc) => {
+      NPCS.push(doc.id);
+    });
+    return NPCS;
+  }
 };
 
 export const getSpecificNPC = async (name: string) => {
@@ -114,6 +113,10 @@ export const getSpecificNPC = async (name: string) => {
 };
 
 //FOLDERS
+interface Folders {
+  name: string;
+  files: string[];
+}
 
 export const getFolders = async () => {
   // albo tutaj niech ściągają się NPC
@@ -121,10 +124,14 @@ export const getFolders = async () => {
     const filesSnapshot = await getDocs(
       collection(db, 'users', auth.currentUser.email, 'folders')
     );
-    let folders: Object[] = [];
+    let folders: Folders[] = [];
 
-    filesSnapshot.forEach((doc) => {
-      folders.push(doc.data());
+    filesSnapshot.forEach(async (data) => {
+      await getNPCs(data.data().name).then((res) => {
+        if (res) {
+          folders.push({ name: data.data().name, files: [...res] });
+        }
+      });
     });
     return folders;
   }
@@ -134,7 +141,6 @@ export const addNewFolder = async (name: string) => {
   if (auth.currentUser?.email) {
     setDoc(doc(db, 'users', auth.currentUser.email, 'folders', name), {
       name: name,
-      data: [],
     })
       .then(() => {
         console.log('folder added to base');

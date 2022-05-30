@@ -41,10 +41,11 @@ const MainList = () => {
         console.log(err);
       });
     getFolders()
-      .then((res) => {
-        if (res) {
-          console.log(res, [...res]);
-          dispatch(setFolders([...res]));
+      .then((folders) => {
+        if (folders) {
+          setTimeout(() => {
+            dispatch(setFolders([...folders]));
+          }, 500);
         }
       })
       .catch((err) => {
@@ -92,7 +93,11 @@ const MainList = () => {
         NPCharacters.map((file: string, i: number) => {
           return (
             <>
-              <ListCardNPC name={file} key={`NPC-${i}`} folderName="main" />
+              <ListCardNPC
+                name={file}
+                key={`NPC-Card-${i}`}
+                folderName="main"
+              />
             </>
           );
         })}
@@ -101,7 +106,12 @@ const MainList = () => {
         folders.map((folder: any, i: number) => {
           return (
             <>
-              <ListCardFolder name={folder.name} i={i} data={folder.data} />
+              <ListCardFolder
+                name={folder.name}
+                i={i}
+                key={`list-card-${i}`}
+                data={folder.files}
+              />
             </>
           );
         })}

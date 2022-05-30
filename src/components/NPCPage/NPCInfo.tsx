@@ -129,7 +129,7 @@ const NPCInfo = ({
                 editable={editable}
                 NPC={NPC}
                 infoType={info}
-                key={i}
+                key={`basic-info-${i}`}
               />
             );
           })}
@@ -151,14 +151,15 @@ const NPCInfo = ({
         </tr>
         <tr>
           {NPCStats &&
-            NPCStats.map((stat: any, index: any) => {
+            NPCStats.map((stat: any, i: any) => {
               return (
                 <th>
                   <StatInput
                     stat={stat}
-                    index={index}
+                    index={i}
                     editable={editable}
                     handleChange={handleChangeNPCStats}
+                    key={`stat-input-${i}`}
                   />
                 </th>
               );
@@ -171,11 +172,12 @@ const NPCInfo = ({
           Umiejętności
         </Typography>
         <ul className="npc_skills-list">
-          {NPC.skills.map((skill: any, index: any) => (
+          {NPC.skills.map((skill: any, i: any) => (
             <Skill
+              key={`skill-${i}`}
               text={skill}
               itemType={'skills'}
-              index={index}
+              index={i}
               editable={editable}
               handleChange={singleListItemChange}
               deleteItem={deleteItem}
@@ -192,10 +194,11 @@ const NPCInfo = ({
           Talenty
         </Typography>
         <ul className="npc_skills-list">
-          {NPC.talents.map((item: any, index: any) => (
+          {NPC.talents.map((item: any, i: any) => (
             <Skill
               text={item}
-              index={index}
+              key={`talent-${i}`}
+              index={i}
               itemType={'talents'}
               editable={editable}
               handleChange={singleListItemChange}
@@ -214,10 +217,11 @@ const NPCInfo = ({
         </Typography>
         <ul className="npc_skills-list">
           {NPC.items &&
-            NPC.items.map((item: any, index: any) => (
+            NPC.items.map((item: any, i: any) => (
               <Skill
+                key={`item-${i}`}
                 text={item}
-                index={index}
+                index={i}
                 itemType={'items'}
                 editable={editable}
                 handleChange={singleListItemChange}

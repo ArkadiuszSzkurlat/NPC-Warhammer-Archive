@@ -87,10 +87,16 @@ const ListCardFolder = ({
         </IconButton>
       </Card>
       <ul className="listOfNPC">
-        {data.map((file: any, i: number) => {
-          if (file.type === 'NPC')
-            return <ListCardNPC name={file.data.name} folderName={name} />;
-        })}
+        {data &&
+          data.map((file: any, i: number) => {
+            return (
+              <ListCardNPC
+                name={file}
+                folderName={name}
+                key={`list-card-NPC-${i}`}
+              />
+            );
+          })}
 
         <AddNPCButton folderName={name} />
       </ul>
