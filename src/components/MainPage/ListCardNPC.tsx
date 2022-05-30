@@ -5,10 +5,16 @@ import './listcard.css';
 import { useNavigate } from 'react-router-dom';
 import { deleteNPC, getSpecificNPC, getNPCs } from '../../firebase';
 import { useDispatch } from 'react-redux';
-import { changeNPCStats, NPCArchetype } from '../../redux/NPCSlice';
+import { changeNPCStats, changeNPCDirectory } from '../../redux/NPCSlice';
 import { setNPCharacters } from '../../redux/NPCharactersSlice';
 
-const ListCardNPC = ({ name }: { name: any }) => {
+const ListCardNPC = ({
+  name,
+  folderName,
+}: {
+  name: string;
+  folderName: string;
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

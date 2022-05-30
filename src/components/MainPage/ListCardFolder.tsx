@@ -7,29 +7,40 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ListCardNPC from './ListCardNPC';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
 import AddNPCButton from './AddNPCButton';
+import { deleteFolder, getFolders } from '../../firebase';
+import { setFolders } from '../../redux/NPCharactersSlice';
+import { useDispatch } from 'react-redux';
 
 const ListCardFolder = ({
   name,
   data,
   i,
-  provided,
-  snapshot,
 }: {
   name: string;
   data: any;
   i: number;
-  provided: any;
-  snapshot: any;
 }) => {
   const [clicked, setClicked] = useState(false);
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
   const [star, setStar] = useState(true);
-  useEffect(() => {
-    console.log(snapshot);
-  }, [snapshot]);
+  const dispatch = useDispatch();
+
+  const deleteFolderButtonHandler = () => {
+    if (window.confirm('Na pewno chcesz usunąć postać?')) {
+      deleteFolder(name);
+      getFolders()
+        .then((res) => {
+          if (res) {
+            dispatch(setFolders([...res]));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
   return (
     <>
@@ -37,9 +48,6 @@ const ListCardFolder = ({
         className="list-folderCard"
         sx={{ background: '#E3EDE6' }}
         elevation={8}
-        {...provided.draggableProps}
-        {...provided.dragHandleProps}
-        ref={provided.innerRef}
       >
         <Avatar variant="square" />
 
@@ -58,7 +66,7 @@ const ListCardFolder = ({
             sx={{ color: star && '#c9c600' }}
           />
         </IconButton>
-        <IconButton>
+        <IconButton onClick={deleteFolderButtonHandler}>
           <DeleteOutlineIcon />
         </IconButton>
         <IconButton
@@ -78,39 +86,14 @@ const ListCardFolder = ({
           {clicked ? <ArrowDownwardIcon /> : <ArrowForwardIcon />}
         </IconButton>
       </Card>
-      {clicked ? (
-        <Droppable
-          droppableId={nameTest}
-          type={nameTest}
-          direction="horizontal"
-        >
-          {(provided) => (
-            <ul
-              className="listOfNPC"
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={{ display: snapshot.isDraggingOver && 'none' }}
-            >
-              {data.map((file: any, i: number) => {
-                if (file.type === 'NPC')
-                  return (
-                    <Draggable key={file.id} draggableId={file.id} index={i}>
-                      {(provided) => (
-                        <ListCardNPC
-                          name={file.data.name}
-                          // snapshot={snapshot}
-                        />
-                      )}
-                    </Draggable>
-                  );
-              })}
+      <ul className="listOfNPC">
+        {data.map((file: any, i: number) => {
+          if (file.type === 'NPC')
+            return <ListCardNPC name={file.data.name} folderName={name} />;
+        })}
 
-              <AddNPCButton />
-              {provided.placeholder}
-            </ul>
-          )}
-        </Droppable>
-      ) : null}
+        <AddNPCButton folderName={name} />
+      </ul>
     </>
   );
 };

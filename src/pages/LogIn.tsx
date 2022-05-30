@@ -9,7 +9,7 @@ const LogIn = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { login, currentUser } = useAuth();
+  const { login } = useAuth();
 
   const navigate = useNavigate();
 

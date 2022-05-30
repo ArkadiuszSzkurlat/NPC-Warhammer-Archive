@@ -1,13 +1,48 @@
 import { IconButton } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { useDispatch } from 'react-redux';
+import { addNewFolder, getFolders } from '../../firebase';
+import { setFolders } from '../../redux/NPCharactersSlice';
 
 const AddFolderButton = () => {
+  const dispatch = useDispatch();
+  const addNewFolderButtonHandler = (): void => {
+    let name = prompt('Jak chcesz nazwać folder?');
+    if (name) {
+      addNewFolder(name);
+      getFolders()
+        .then((res) => {
+          if (res) {
+            dispatch(setFolders([...res]));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    // if (window.confirm('Na pewno chcesz usunąć postać?')) {
+    //   deleteNPC(name);
+    //   getNPCs()
+    //     .then((res) => {
+    //       if (res) {
+    //         dispatch(setNPCharacters([...res]));
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    //   navigate('/');
+    // } else {
+    //   console.log('Anulowałeś usuwanie postaci');
+    // }
+  };
   return (
     <div
       className="addFolderButton"
       // @ts-ignore: Unreachable code error
       sx={{ background: '#E3EDE6' }}
       elevation={8}
+      onClick={addNewFolderButtonHandler}
     >
       <IconButton
         sx={{

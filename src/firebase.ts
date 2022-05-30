@@ -27,6 +27,7 @@ export const auth = app.auth();
 
 export const db = getFirestore(app);
 
+// Auth menagment
 export const creatUserWithEmail = (email: string, password: string) => {
   return auth.createUserWithEmailAndPassword(email, password).then(() => {
     setDoc(doc(db, 'users', email), {
@@ -35,9 +36,33 @@ export const creatUserWithEmail = (email: string, password: string) => {
   });
 };
 
+// NPCS
+// TODO ifka czy do folderu czy nie
 export const addEditNPC = (data: NPCArchetype): void => {
-  if (auth.currentUser?.email) {
+  console.log(data);
+  if (auth.currentUser?.email && data.folder === 'main') {
     setDoc(doc(db, 'users', auth.currentUser.email, 'files', data.name), data)
+      .then(() => {
+        alert('Pomyślnie zapisano postać');
+      })
+      .catch((err) => {
+        alert('Wystąpił błąd przy zapisywaniu postaci');
+        console.log(err);
+      });
+  }
+  if (auth.currentUser?.email && data.folder !== 'main') {
+    setDoc(
+      doc(
+        db,
+        'users',
+        auth.currentUser.email,
+        'folders',
+        data.folder,
+        'files',
+        data.name
+      ),
+      data
+    )
       .then(() => {
         alert('Pomyślnie zapisano postać');
       })
@@ -55,17 +80,28 @@ export const deleteNPC = (name: string) => {
 
 export const getNPCs = async () => {
   if (auth.currentUser?.email) {
-    const querySnapshot = await getDocs(
+    const filesSnapshot = await getDocs(
       collection(db, 'users', auth.currentUser.email, 'files')
     );
-
     let NPCS: string[] = [];
 
-    querySnapshot.forEach((doc) => {
+    filesSnapshot.forEach((doc) => {
       NPCS.push(doc.id);
     });
     return NPCS;
   }
+  // albo tutaj zrobić że za każdym razem się sciągają NPC i trzeba parametry zmienić
+  // if (auth.currentUser?.email) {
+  //   const filesSnapshot = await getDocs(
+  //     collection(db, 'users', auth.currentUser.email, 'folders', data.)
+  //   );
+  //   let NPCS: string[] = [];
+
+  //   filesSnapshot.forEach((doc) => {
+  //     NPCS.push(doc.id);
+  //   });
+  //   return NPCS;
+  // }
 };
 
 export const getSpecificNPC = async (name: string) => {
@@ -75,4 +111,42 @@ export const getSpecificNPC = async (name: string) => {
     );
     return NPC;
   }
+};
+
+//FOLDERS
+
+export const getFolders = async () => {
+  // albo tutaj niech ściągają się NPC
+  if (auth.currentUser?.email) {
+    const filesSnapshot = await getDocs(
+      collection(db, 'users', auth.currentUser.email, 'folders')
+    );
+    let folders: Object[] = [];
+
+    filesSnapshot.forEach((doc) => {
+      folders.push(doc.data());
+    });
+    return folders;
+  }
+};
+
+export const addNewFolder = async (name: string) => {
+  if (auth.currentUser?.email) {
+    setDoc(doc(db, 'users', auth.currentUser.email, 'folders', name), {
+      name: name,
+      data: [],
+    })
+      .then(() => {
+        console.log('folder added to base');
+      })
+      .catch((err) => {
+        alert('Wystąpił błąd przy dodawaniu folderu');
+        console.log(err);
+      });
+  }
+};
+
+export const deleteFolder = async (name: string) => {
+  auth.currentUser?.email &&
+    deleteDoc(doc(db, 'users', auth.currentUser.email, 'folders', name));
 };

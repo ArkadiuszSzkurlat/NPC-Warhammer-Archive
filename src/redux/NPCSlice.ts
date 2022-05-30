@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface NPCArchetype {
+  folder: string;
   name: string;
   race: string;
   class: string;
@@ -15,6 +16,7 @@ export interface NPCArchetype {
 }
 
 const initialState: NPCArchetype = {
+  folder: 'main',
   name: '',
   race: '',
   class: '',
@@ -48,10 +50,16 @@ export const NPCSlice = createSlice({
       state.items = action.payload.items;
       state.description = action.payload.description;
     },
+    changeNPCDirectory: (
+      state: NPCArchetype,
+      action: PayloadAction<string>
+    ) => {
+      state.folder = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { changeNPCStats } = NPCSlice.actions;
+export const { changeNPCStats, changeNPCDirectory } = NPCSlice.actions;
 
 export default NPCSlice.reducer;

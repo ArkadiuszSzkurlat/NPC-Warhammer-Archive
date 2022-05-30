@@ -9,16 +9,17 @@ import {
   Draggable,
   resetServerContext,
 } from 'react-beautiful-dnd';
-import { useEffect, useState } from 'react';
-import { getNPCs } from '../firebase';
+import { useEffect } from 'react';
+import { getNPCs, getFolders } from '../firebase';
 import { useSelector, useDispatch } from 'react-redux';
-import { setNPCharacters } from '../redux/NPCharactersSlice';
+import { setNPCharacters, setFolders } from '../redux/NPCharactersSlice';
 resetServerContext();
 
 const MainList = () => {
   const NPCharacters = useSelector(
     (state: any) => state.NPCharactersSlice.names
   );
+  const folders = useSelector((state: any) => state.NPCharactersSlice.folders);
   // TODO dispatch nie działa
   const dispatch = useDispatch();
   // const [mainListSnapshot, setMainListSnapshot] = useState();
@@ -39,7 +40,17 @@ const MainList = () => {
       .catch((err) => {
         console.log(err);
       });
-    console.log(NPCharacters);
+    getFolders()
+      .then((res) => {
+        if (res) {
+          console.log(res, [...res]);
+          dispatch(setFolders([...res]));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(folders);
   }, []);
 
   // const handleonDragEnd = (result) => {
@@ -81,11 +92,19 @@ const MainList = () => {
         NPCharacters.map((file: string, i: number) => {
           return (
             <>
-              <ListCardNPC name={file} key={`NPC-${i}`} />
+              <ListCardNPC name={file} key={`NPC-${i}`} folderName="main" />
             </>
           );
         })}
-      <AddNPCButton />
+      <AddNPCButton folderName="main" />
+      {folders &&
+        folders.map((folder: any, i: number) => {
+          return (
+            <>
+              <ListCardFolder name={folder.name} i={i} data={folder.data} />
+            </>
+          );
+        })}
       <AddFolderButton />
     </ul>
   );
