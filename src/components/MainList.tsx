@@ -37,24 +37,23 @@ const MainList = () => {
         if (res) {
           dispatch(setNPCharacters([...res]));
         }
+        return null;
       })
       .catch((err) => {
         console.log(err);
       });
-    getFolders()
-      .then(async (folders) => {
+    const folders = getFolders()
+      .then((folders) => {
+        console.log(folders);
         if (folders) {
-          console.log(folders);
-          // setTimeout(() => {
-          //   dispatch(setFolders([...folders]));
-          // }, 500);
-
           dispatch(setFolders([...folders]));
         }
+        return folders;
       })
       .catch((err) => {
         console.log(err);
       });
+    console.log(folders);
   }, []);
 
   // const handleonDragEnd = (result) => {

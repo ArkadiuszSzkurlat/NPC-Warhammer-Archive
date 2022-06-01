@@ -14,9 +14,12 @@ const ListCardNPC = ({ name }: { name: string }) => {
   const dispatch = useDispatch();
 
   const editButtonHandler = (e: any): void => {
-    getSpecificNPC(e.target.value).then((NPCstats: any) =>
-      dispatch(changeNPCStats(NPCstats.data()))
-    );
+    getSpecificNPC(e.target.value)
+      .then((NPCstats: any) => {
+        dispatch(changeNPCStats(NPCstats.data()));
+        return null;
+      })
+      .catch((err) => console.log(err));
     navigate('/npcpage');
   };
 
@@ -28,6 +31,7 @@ const ListCardNPC = ({ name }: { name: string }) => {
           if (res) {
             dispatch(setNPCharacters([...res]));
           }
+          return null;
         })
         .catch((err) => {
           console.log(err);

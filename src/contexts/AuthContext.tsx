@@ -19,6 +19,7 @@ const AuthProvider = ({ children }: { children: any }) => {
   const login = (email: string, password: string) => {
     return auth.signInWithEmailAndPassword(email, password).then(() => {
       console.log(auth.currentUser);
+      return auth.currentUser;
     });
   };
 

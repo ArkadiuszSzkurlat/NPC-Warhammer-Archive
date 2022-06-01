@@ -15,6 +15,7 @@
     "@types/node": "^16.11.19",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
+    "eslint-plugin-promise": "^6.0.0",
     "firebase": "^9.6.9",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",

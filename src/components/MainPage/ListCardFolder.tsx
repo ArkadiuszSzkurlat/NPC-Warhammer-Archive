@@ -33,6 +33,7 @@ const ListCardFolder = ({ name, data }: { name: string; data: any }) => {
               dispatch(setFolders([...res]));
             }, 500);
           }
+          return res;
         })
         .catch((err) => {
           console.log(err);

@@ -14,10 +14,9 @@ const AddFolderButton = () => {
       getFolders()
         .then((res) => {
           if (res) {
-            setTimeout(() => {
-              dispatch(setFolders([...res]));
-            }, 500);
+            dispatch(setFolders([...res]));
           }
+          return res;
         })
         .catch((err) => {
           console.log(err);

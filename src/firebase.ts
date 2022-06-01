@@ -33,6 +33,7 @@ export const creatUserWithEmail = (email: string, password: string) => {
     setDoc(doc(db, 'users', email), {
       email,
     });
+    return null;
   });
 };
 
@@ -42,6 +43,7 @@ export const addEditNPC = (data: NPCArchetype): void => {
     setDoc(doc(db, 'users', auth.currentUser.email, 'files', data.name), data)
       .then(() => {
         alert('Pomyślnie zapisano postać');
+        return null;
       })
       .catch((err) => {
         alert('Wystąpił błąd przy zapisywaniu postaci');
@@ -63,6 +65,7 @@ export const addEditNPC = (data: NPCArchetype): void => {
     )
       .then(() => {
         alert('Pomyślnie zapisano postać');
+        return null;
       })
       .catch((err) => {
         alert('Wystąpił błąd przy zapisywaniu postaci');
@@ -76,29 +79,16 @@ export const deleteNPC = (name: string) => {
     deleteDoc(doc(db, 'users', auth.currentUser.email, 'files', name));
 };
 
-export const getNPCs = async (thing = 'main') => {
-  if (auth.currentUser?.email && thing === 'main') {
-    const filesSnapshot = await getDocs(
-      collection(db, 'users', auth.currentUser.email, 'files')
-    );
-    const NPCS: string[] = [];
-
-    filesSnapshot.forEach((doc) => {
-      NPCS.push(doc.id);
-    });
-    return NPCS;
-  }
-  if (auth.currentUser?.email && thing !== 'main') {
-    const filesSnapshot = await getDocs(
-      collection(db, 'users', auth.currentUser.email, 'folders', thing, 'files')
-    );
-    const NPCS: string[] = [];
-
-    filesSnapshot.forEach((doc) => {
-      NPCS.push(doc.id);
-    });
-    return NPCS;
-  }
+export const getNPCs = async () => {
+  if (!auth.currentUser?.email) return;
+  const NPCS: string[] = [];
+  const filesSnapshot = await getDocs(
+    collection(db, 'users', auth.currentUser.email, 'files')
+  );
+  filesSnapshot.forEach((doc) => {
+    NPCS.push(doc.id);
+  });
+  return NPCS;
 };
 
 export const getSpecificNPC = async (name: string) => {
@@ -121,14 +111,27 @@ export const getFolders = async () => {
     collection(db, 'users', auth.currentUser.email, 'folders')
   );
   const folders: Folders[] = [];
-
-  filesSnapshot.forEach(async (data) => {
-    await getNPCs(data.data().name).then((res) => {
-      if (res) {
-        folders.push({ name: data.data().name, files: [...res] });
-      }
-    });
+  const foldersNames: string[] = [];
+  filesSnapshot.forEach((snap) => {
+    foldersNames.push(snap.data().name);
   });
+  for (let i = 0; i < foldersNames.length; i++) {
+    const NPCs: string[] = [];
+    const files = await getDocs(
+      collection(
+        db,
+        'users',
+        auth.currentUser.email,
+        'folders',
+        foldersNames[i],
+        'files'
+      )
+    );
+    files.forEach((file) => {
+      NPCs.push(file.id);
+    });
+    folders.push({ name: foldersNames[i], files: NPCs });
+  }
   return folders;
 };
 
@@ -139,6 +142,7 @@ export const addNewFolder = async (name: string) => {
   })
     .then(() => {
       console.log('folder added to base');
+      return null;
     })
     .catch((err) => {
       alert('Wystąpił błąd przy dodawaniu folderu');
