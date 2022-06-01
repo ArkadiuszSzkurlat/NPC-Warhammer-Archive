@@ -8,7 +8,7 @@ import { setFolders } from '../../redux/NPCharactersSlice';
 const AddFolderButton = () => {
   const dispatch = useDispatch();
   const addNewFolderButtonHandler = (): void => {
-    let name = prompt('Jak chcesz nazwać folder?');
+    const name = prompt('Jak chcesz nazwać folder?');
     if (name) {
       addNewFolder(name);
       getFolders()

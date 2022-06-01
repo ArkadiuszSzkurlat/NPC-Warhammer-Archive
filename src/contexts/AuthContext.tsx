@@ -1,8 +1,6 @@
 import React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { auth, db, creatUserWithEmail } from '../firebase';
-import { collection, addDoc, setDoc } from 'firebase/firestore';
-import firebase from 'firebase/compat/app';
+import { auth, creatUserWithEmail } from '../firebase';
 
 const authContext = createContext<any>({} as any);
 

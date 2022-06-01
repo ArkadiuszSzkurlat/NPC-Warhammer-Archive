@@ -13,11 +13,11 @@ const Skill = ({
   editable: boolean;
   text: string;
   index: number;
-  handleChange: (e: unknown, thing: string, i: string) => {};
+  handleChange: (e: unknown, thing: string, i: string) => void;
   itemType: string;
-  deleteItem: (e: unknown, item: string, i: string) => {};
+  deleteItem: (e: unknown, item: string, i: string) => void;
 }) => {
-  let i = index.toString();
+  const i = index.toString();
 
   return (
     <li className="npc_skills-list-item" style={{ paddingBottom: '5px' }}>

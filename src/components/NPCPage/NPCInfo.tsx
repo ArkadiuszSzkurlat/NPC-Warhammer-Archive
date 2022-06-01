@@ -1,6 +1,6 @@
 import React from 'react';
-import { ListItem, Typography, IconButton } from '@mui/material';
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import './npcinfo.css';
 import AvatarImg from '../../resources/images/face.jpg';
 import StatInput from './StatInput';
@@ -8,7 +8,7 @@ import Skill from './Skill';
 import BasicInfo from './BasicInfo';
 import AddItem from './AddItem';
 import { useDispatch } from 'react-redux';
-import { NPCArchetype, changeNPCStats } from '../../redux/NPCSlice';
+import { changeNPCStats } from '../../redux/NPCSlice';
 
 interface BasicInfoNPC {
   eng: string;
@@ -19,12 +19,10 @@ const NPCInfo = ({
   editable,
   NPC,
   setNPC,
-  saved,
 }: {
   editable: boolean;
   NPC: any;
   setNPC: any;
-  saved: boolean;
 }) => {
   const dispatch = useDispatch();
   const [NPCStats, setNPCStats] = useState(NPC.stats);
@@ -33,7 +31,7 @@ const NPCInfo = ({
     setNPCStats(NPC.stats);
   }, [NPC.stats]);
 
-  let NPCBasicInfo: BasicInfoNPC[] = [
+  const NPCBasicInfo: BasicInfoNPC[] = [
     { eng: 'race', pl: 'Rasa' },
     { eng: 'class', pl: 'Klasa' },
     { eng: 'status', pl: 'Status' },
@@ -45,7 +43,7 @@ const NPCInfo = ({
   const handleChangeNPCStats = (e: any) => {
     const { name, value }: { name: number; value: number } = e.target;
 
-    let NPCStatsLET = [...NPCStats];
+    const NPCStatsLET = [...NPCStats];
     NPCStatsLET[name] = +value;
     setNPCStats(NPCStatsLET);
     setNPC((prevState: any) => ({
@@ -54,10 +52,10 @@ const NPCInfo = ({
     }));
   };
 
-  const singleListItemChange = async (e: any, thing: any, i: any) => {
+  const singleListItemChange = async (e: any, thing: string) => {
     const { name, value } = e.target;
 
-    let NPCThings = [...NPC[thing]];
+    const NPCThings = [...NPC[thing]];
     NPCThings[name] = value;
     setNPC((prevState: any) => ({
       ...prevState,
@@ -66,7 +64,7 @@ const NPCInfo = ({
   };
 
   const addListItem = async (thing: any) => {
-    let NPCThings = [...NPC[thing]];
+    const NPCThings = [...NPC[thing]];
     NPCThings.push('');
 
     setNPC((prevState: any) => ({
@@ -75,8 +73,8 @@ const NPCInfo = ({
     }));
   };
 
-  const deleteItem = async (e: any, thing: any, i: any) => {
-    let NPCThings = [...NPC[thing]];
+  const deleteItem = async (e: any, thing: string, i: any) => {
+    const NPCThings = [...NPC[thing]];
     NPCThings.splice(i, 1);
 
     setNPC((prevState: any) => ({
@@ -86,7 +84,7 @@ const NPCInfo = ({
   };
 
   const handleSingleItemChange = async (e: any, type: any) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     setNPC((prevState: any) => ({
       ...prevState,
       [type]: value,
@@ -94,7 +92,6 @@ const NPCInfo = ({
   };
 
   //zapis zmian
-  let started = true;
   useEffect(() => {
     console.log(NPC);
     setNPC((prevState: any) => ({

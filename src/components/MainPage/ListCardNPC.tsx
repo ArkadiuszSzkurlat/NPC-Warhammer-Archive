@@ -1,21 +1,15 @@
 import React from 'react';
-import { Avatar, Card, IconButton, Typography, Button } from '@mui/material';
+import { Card, IconButton, Typography, Button } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import avatarImage from '../../resources/images/face.jpg';
 import './listcard.css';
 import { useNavigate } from 'react-router-dom';
 import { deleteNPC, getSpecificNPC, getNPCs } from '../../firebase';
 import { useDispatch } from 'react-redux';
-import { changeNPCStats, changeNPCDirectory } from '../../redux/NPCSlice';
+import { changeNPCStats } from '../../redux/NPCSlice';
 import { setNPCharacters } from '../../redux/NPCharactersSlice';
 
-const ListCardNPC = ({
-  name,
-  folderName,
-}: {
-  name: string;
-  folderName: string;
-}) => {
+const ListCardNPC = ({ name }: { name: string }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

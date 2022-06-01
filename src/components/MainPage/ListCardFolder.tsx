@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Avatar, Typography, IconButton, Portal } from '@mui/material';
+import React, { useState } from 'react';
+import { Card, Avatar, IconButton } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -12,15 +11,7 @@ import { deleteFolder, getFolders } from '../../firebase';
 import { setFolders } from '../../redux/NPCharactersSlice';
 import { useDispatch } from 'react-redux';
 
-const ListCardFolder = ({
-  name,
-  data,
-  i,
-}: {
-  name: string;
-  data: any;
-  i: number;
-}) => {
+const ListCardFolder = ({ name, data }: { name: string; data: any }) => {
   const [clicked, setClicked] = useState(false);
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
@@ -97,13 +88,7 @@ const ListCardFolder = ({
         <ul className="listOfNPC">
           {data &&
             data.map((file: any, i: number) => {
-              return (
-                <ListCardNPC
-                  name={file}
-                  folderName={name}
-                  key={`list-card-NPC-${i}`}
-                />
-              );
+              return <ListCardNPC name={file} key={`list-card-NPC-${i}`} />;
             })}
 
           <AddNPCButton folderName={name} />

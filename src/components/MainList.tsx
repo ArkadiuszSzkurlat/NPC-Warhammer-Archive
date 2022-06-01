@@ -4,17 +4,17 @@ import '../components/MainPage/listcard.css';
 import ListCardNPC from './MainPage/ListCardNPC';
 import AddNPCButton from './MainPage/AddNPCButton';
 import AddFolderButton from './MainPage/AddFolderButton';
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  resetServerContext,
-} from 'react-beautiful-dnd';
+// import {
+//   DragDropContext,
+//   Droppable,
+//   Draggable,
+//   resetServerContext,
+// } from 'react-beautiful-dnd';
 import { useEffect } from 'react';
 import { getNPCs, getFolders } from '../firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNPCharacters, setFolders } from '../redux/NPCharactersSlice';
-resetServerContext();
+// resetServerContext();
 
 const MainList = () => {
   const NPCharacters = useSelector(
@@ -45,11 +45,11 @@ const MainList = () => {
       .then(async (folders) => {
         if (folders) {
           console.log(folders);
-          setTimeout(() => {
-            dispatch(setFolders([...folders]));
-          }, 500);
+          // setTimeout(() => {
+          //   dispatch(setFolders([...folders]));
+          // }, 500);
 
-          // dispatch(setFolders([...folders]));
+          dispatch(setFolders([...folders]));
         }
       })
       .catch((err) => {
@@ -96,11 +96,7 @@ const MainList = () => {
         NPCharacters.map((file: string, i: number) => {
           return (
             <>
-              <ListCardNPC
-                name={file}
-                key={`NPC-Card-${i}`}
-                folderName="main"
-              />
+              <ListCardNPC name={file} key={`NPC-Card-${i}`} />
             </>
           );
         })}
@@ -111,7 +107,6 @@ const MainList = () => {
             <>
               <ListCardFolder
                 name={folder.name}
-                i={i}
                 key={`list-card-${i}`}
                 data={folder.files}
               />

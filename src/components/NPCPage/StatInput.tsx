@@ -10,7 +10,7 @@ const StatInput = ({
   editable: boolean;
   handleChange: (e: MouseEvent) => void;
 }) => {
-  let i = index.toString();
+  const i = index.toString();
 
   return (
     <input

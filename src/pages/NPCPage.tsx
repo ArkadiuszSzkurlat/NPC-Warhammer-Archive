@@ -26,7 +26,7 @@ const NPCPage = () => {
         saved={saved}
         setSaved={setSaved}
       />
-      <NPCInfo editable={editable} NPC={NPC} setNPC={setNPC} saved={saved} />
+      <NPCInfo editable={editable} NPC={NPC} setNPC={setNPC} />
     </div>
   );
 };

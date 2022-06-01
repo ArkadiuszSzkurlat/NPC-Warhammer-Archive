@@ -38,7 +38,6 @@ export const creatUserWithEmail = (email: string, password: string) => {
 
 // NPCS
 export const addEditNPC = (data: NPCArchetype): void => {
-  console.log(data);
   if (auth.currentUser?.email && data.folder === 'main') {
     setDoc(doc(db, 'users', auth.currentUser.email, 'files', data.name), data)
       .then(() => {
@@ -82,7 +81,7 @@ export const getNPCs = async (thing = 'main') => {
     const filesSnapshot = await getDocs(
       collection(db, 'users', auth.currentUser.email, 'files')
     );
-    let NPCS: string[] = [];
+    const NPCS: string[] = [];
 
     filesSnapshot.forEach((doc) => {
       NPCS.push(doc.id);
@@ -93,7 +92,7 @@ export const getNPCs = async (thing = 'main') => {
     const filesSnapshot = await getDocs(
       collection(db, 'users', auth.currentUser.email, 'folders', thing, 'files')
     );
-    let NPCS: string[] = [];
+    const NPCS: string[] = [];
 
     filesSnapshot.forEach((doc) => {
       NPCS.push(doc.id);
@@ -121,7 +120,7 @@ export const getFolders = async () => {
   const filesSnapshot = await getDocs(
     collection(db, 'users', auth.currentUser.email, 'folders')
   );
-  let folders: Folders[] = [];
+  const folders: Folders[] = [];
 
   filesSnapshot.forEach(async (data) => {
     await getNPCs(data.data().name).then((res) => {
