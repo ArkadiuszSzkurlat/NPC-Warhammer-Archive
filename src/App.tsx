@@ -1,3 +1,4 @@
+import React from 'react';
 import MainPage from './pages/MainPage';
 import NPCPage from './pages/NPCPage';
 import SignUp from './pages/SignUp';

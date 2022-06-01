@@ -1,3 +1,4 @@
+import React from 'react';
 import './style.css';
 import MainUserInfo from '../components/MainUserInfo';
 import NPCNav from '../components/NPCNav';

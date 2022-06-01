@@ -1,3 +1,4 @@
+import React from 'react';
 import { Avatar, Card, IconButton, Typography, Button } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import avatarImage from '../../resources/images/face.jpg';

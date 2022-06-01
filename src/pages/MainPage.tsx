@@ -1,3 +1,4 @@
+import React from 'react';
 import './style.css';
 import MainNav from '../components/MainNav';
 import MainUserInfo from '../components/MainUserInfo';

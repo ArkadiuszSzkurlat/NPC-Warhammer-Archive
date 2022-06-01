@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Avatar, Typography, IconButton } from '@mui/material';
+import { Card, Avatar, Typography, IconButton, Portal } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import EditIcon from '@mui/icons-material/Edit';
@@ -28,12 +28,19 @@ const ListCardFolder = ({
   const dispatch = useDispatch();
 
   const deleteFolderButtonHandler = () => {
-    if (window.confirm('Na pewno chcesz usunąć postać?')) {
+    if (
+      window.confirm(
+        'Na pewno chcesz usunąć folder wraz ze wszystkimi bohaterami?'
+      )
+    ) {
       deleteFolder(name);
       getFolders()
         .then((res) => {
           if (res) {
-            dispatch(setFolders([...res]));
+            // Do naprawienia
+            setTimeout(() => {
+              dispatch(setFolders([...res]));
+            }, 500);
           }
         })
         .catch((err) => {
@@ -86,20 +93,22 @@ const ListCardFolder = ({
           {clicked ? <ArrowDownwardIcon /> : <ArrowForwardIcon />}
         </IconButton>
       </Card>
-      <ul className="listOfNPC">
-        {data &&
-          data.map((file: any, i: number) => {
-            return (
-              <ListCardNPC
-                name={file}
-                folderName={name}
-                key={`list-card-NPC-${i}`}
-              />
-            );
-          })}
+      {clicked && (
+        <ul className="listOfNPC">
+          {data &&
+            data.map((file: any, i: number) => {
+              return (
+                <ListCardNPC
+                  name={file}
+                  folderName={name}
+                  key={`list-card-NPC-${i}`}
+                />
+              );
+            })}
 
-        <AddNPCButton folderName={name} />
-      </ul>
+          <AddNPCButton folderName={name} />
+        </ul>
+      )}
     </>
   );
 };

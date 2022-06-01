@@ -37,7 +37,6 @@ export const creatUserWithEmail = (email: string, password: string) => {
 };
 
 // NPCS
-// TODO ifka czy do folderu czy nie
 export const addEditNPC = (data: NPCArchetype): void => {
   console.log(data);
   if (auth.currentUser?.email && data.folder === 'main') {
@@ -104,12 +103,11 @@ export const getNPCs = async (thing = 'main') => {
 };
 
 export const getSpecificNPC = async (name: string) => {
-  if (auth.currentUser?.email) {
-    const NPC = await getDoc(
-      doc(db, 'users', auth.currentUser.email, 'files', name)
-    );
-    return NPC;
-  }
+  if (!auth.currentUser?.email) return;
+  const NPC = await getDoc(
+    doc(db, 'users', auth.currentUser.email, 'files', name)
+  );
+  return NPC;
 };
 
 //FOLDERS
@@ -119,40 +117,54 @@ interface Folders {
 }
 
 export const getFolders = async () => {
-  // albo tutaj niech ściągają się NPC
-  if (auth.currentUser?.email) {
-    const filesSnapshot = await getDocs(
-      collection(db, 'users', auth.currentUser.email, 'folders')
-    );
-    let folders: Folders[] = [];
+  if (!auth.currentUser?.email) return;
+  const filesSnapshot = await getDocs(
+    collection(db, 'users', auth.currentUser.email, 'folders')
+  );
+  let folders: Folders[] = [];
 
-    filesSnapshot.forEach(async (data) => {
-      await getNPCs(data.data().name).then((res) => {
-        if (res) {
-          folders.push({ name: data.data().name, files: [...res] });
-        }
-      });
+  filesSnapshot.forEach(async (data) => {
+    await getNPCs(data.data().name).then((res) => {
+      if (res) {
+        folders.push({ name: data.data().name, files: [...res] });
+      }
     });
-    return folders;
-  }
+  });
+  return folders;
 };
 
 export const addNewFolder = async (name: string) => {
-  if (auth.currentUser?.email) {
-    setDoc(doc(db, 'users', auth.currentUser.email, 'folders', name), {
-      name: name,
+  if (!auth.currentUser?.email) return;
+  setDoc(doc(db, 'users', auth.currentUser.email, 'folders', name), {
+    name: name,
+  })
+    .then(() => {
+      console.log('folder added to base');
     })
-      .then(() => {
-        console.log('folder added to base');
-      })
-      .catch((err) => {
-        alert('Wystąpił błąd przy dodawaniu folderu');
-        console.log(err);
-      });
-  }
+    .catch((err) => {
+      alert('Wystąpił błąd przy dodawaniu folderu');
+      console.log(err);
+    });
 };
 
 export const deleteFolder = async (name: string) => {
-  auth.currentUser?.email &&
-    deleteDoc(doc(db, 'users', auth.currentUser.email, 'folders', name));
+  if (!auth.currentUser?.email) return;
+  await deleteDoc(doc(db, 'users', auth.currentUser.email, 'folders', name));
+  const filesSnapshot = await getDocs(
+    collection(db, 'users', auth.currentUser.email, 'folders', name, 'files')
+  );
+  filesSnapshot.forEach((file) => {
+    if (!auth.currentUser?.email) return;
+    deleteDoc(
+      doc(
+        db,
+        'users',
+        auth.currentUser.email,
+        'folders',
+        name,
+        'files',
+        file.id
+      )
+    );
+  });
 };

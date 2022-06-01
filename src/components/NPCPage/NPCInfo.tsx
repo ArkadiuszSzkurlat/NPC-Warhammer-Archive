@@ -1,3 +1,4 @@
+import React from 'react';
 import { ListItem, Typography, IconButton } from '@mui/material';
 import { MouseEventHandler, useEffect, useState } from 'react';
 import './npcinfo.css';
@@ -153,7 +154,7 @@ const NPCInfo = ({
           {NPCStats &&
             NPCStats.map((stat: any, i: any) => {
               return (
-                <th>
+                <th key={`stat-input-${i}`}>
                   <StatInput
                     stat={stat}
                     index={i}

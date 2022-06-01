@@ -1,3 +1,4 @@
+import React from 'react';
 import ListCardFolder from './MainPage/ListCardFolder';
 import '../components/MainPage/listcard.css';
 import ListCardNPC from './MainPage/ListCardNPC';
@@ -41,17 +42,19 @@ const MainList = () => {
         console.log(err);
       });
     getFolders()
-      .then((folders) => {
+      .then(async (folders) => {
         if (folders) {
+          console.log(folders);
           setTimeout(() => {
             dispatch(setFolders([...folders]));
           }, 500);
+
+          // dispatch(setFolders([...folders]));
         }
       })
       .catch((err) => {
         console.log(err);
       });
-    console.log(folders);
   }, []);
 
   // const handleonDragEnd = (result) => {

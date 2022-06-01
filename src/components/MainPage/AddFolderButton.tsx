@@ -1,3 +1,4 @@
+import React from 'react';
 import { IconButton } from '@mui/material';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useDispatch } from 'react-redux';
@@ -13,7 +14,9 @@ const AddFolderButton = () => {
       getFolders()
         .then((res) => {
           if (res) {
-            dispatch(setFolders([...res]));
+            setTimeout(() => {
+              dispatch(setFolders([...res]));
+            }, 500);
           }
         })
         .catch((err) => {
