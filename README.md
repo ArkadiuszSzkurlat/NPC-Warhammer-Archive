@@ -29,7 +29,8 @@ An application created in the React that allows you to save the NPC Heroes of th
 ## Features
 - Register, Login, Forgot password and Delete account funcionality
 - Create an editable Warhammer NPC
-- Create folder where you can store NPC's
+- Create folder where you can store NPC's 
+- All NPCs are stored in firebase database
 
 
 ## Setup and Usage
@@ -46,7 +47,10 @@ Project is: _in progress_
 
 ## Room for Improvement
 To do:
-- Create a database where NPCs will be stored
+- Picking classes and some basic stats from list
+- NPCs stats generator
+- Drag and drop funcionality
+- Bug Fixes
 - Host app 
 - Add some small ads or patreon link
 - Make react-native version 
