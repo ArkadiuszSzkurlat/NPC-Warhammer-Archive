@@ -7,11 +7,17 @@ const BasicInfo = ({
   NPC,
   infoType,
 }: {
-  handleSingleItemChange: (e: any, type: any) => Promise<void>;
+  handleSingleItemChange: (
+    e:
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement>,
+    type: string
+  ) => Promise<void>;
   editable: boolean;
   NPC: any;
   infoType: { eng: string; pl: string };
 }) => {
+  // console.log(NPC);
   return (
     <Typography variant="body1" className="npc-mainInfo--BasicInfo">
       {infoType.pl + ': '}
@@ -20,7 +26,7 @@ const BasicInfo = ({
         type="text"
         value={NPC[infoType.eng]}
         disabled={!editable}
-        onChange={(e: any) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           handleSingleItemChange(e, infoType.eng);
         }}
       />

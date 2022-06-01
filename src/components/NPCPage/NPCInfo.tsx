@@ -9,6 +9,7 @@ import BasicInfo from './BasicInfo';
 import AddItem from './AddItem';
 import { useDispatch } from 'react-redux';
 import { changeNPCStats } from '../../redux/NPCSlice';
+import { NPCArchetype } from '../../types/types';
 
 interface BasicInfoNPC {
   eng: string;
@@ -22,7 +23,7 @@ const NPCInfo = ({
 }: {
   editable: boolean;
   NPC: any;
-  setNPC: any;
+  setNPC: React.Dispatch<React.SetStateAction<NPCArchetype>>;
 }) => {
   const dispatch = useDispatch();
   const [NPCStats, setNPCStats] = useState(NPC.stats);
@@ -40,52 +41,65 @@ const NPCInfo = ({
   ];
 
   //Zmienia staty postaci
-  const handleChangeNPCStats = (e: any) => {
-    const { name, value }: { name: number; value: number } = e.target;
+  const handleChangeNPCStats = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value }: { name: string; value: string } = e.target;
 
     const NPCStatsLET = [...NPCStats];
-    NPCStatsLET[name] = +value;
+    NPCStatsLET[+name] = +value;
     setNPCStats(NPCStatsLET);
-    setNPC((prevState: any) => ({
+    setNPC((prevState: NPCArchetype) => ({
       ...prevState,
       ['stats']: NPCStatsLET,
     }));
   };
 
-  const singleListItemChange = async (e: any, thing: string) => {
+  const singleListItemChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    thing: string
+  ) => {
     const { name, value } = e.target;
 
     const NPCThings = [...NPC[thing]];
-    NPCThings[name] = value;
-    setNPC((prevState: any) => ({
+    NPCThings[+name] = value;
+    setNPC((prevState: NPCArchetype) => ({
       ...prevState,
       [thing]: NPCThings,
     }));
   };
 
-  const addListItem = async (thing: any) => {
+  const addListItem = async (thing: string) => {
     const NPCThings = [...NPC[thing]];
     NPCThings.push('');
 
-    setNPC((prevState: any) => ({
+    setNPC((prevState: NPCArchetype) => ({
       ...prevState,
       [thing]: NPCThings,
     }));
   };
 
-  const deleteItem = async (e: any, thing: string, i: any) => {
+  const deleteItem = (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    thing: string,
+    i: string
+  ) => {
     const NPCThings = [...NPC[thing]];
-    NPCThings.splice(i, 1);
+    NPCThings.splice(+i, 1);
 
-    setNPC((prevState: any) => ({
+    setNPC((prevState: NPCArchetype) => ({
       ...prevState,
       [thing]: NPCThings,
     }));
   };
 
-  const handleSingleItemChange = async (e: any, type: any) => {
+  const handleSingleItemChange = async (
+    e:
+      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement>,
+    type: string
+  ) => {
     const { value } = e.target;
-    setNPC((prevState: any) => ({
+    console.log(type);
+    setNPC((prevState: NPCArchetype) => ({
       ...prevState,
       [type]: value,
     }));
@@ -93,8 +107,7 @@ const NPCInfo = ({
 
   //zapis zmian
   useEffect(() => {
-    console.log(NPC);
-    setNPC((prevState: any) => ({
+    setNPC((prevState: NPCArchetype) => ({
       ...prevState,
       stats: NPCStats,
     }));
@@ -113,14 +126,14 @@ const NPCInfo = ({
             type="text"
             value={NPC.name}
             disabled={!editable}
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               handleSingleItemChange(e, 'name');
             }}
           />
         </div>
         {/* Main info */}
         <div className="npc-mainInfo">
-          {NPCBasicInfo.map((info, i) => {
+          {NPCBasicInfo.map((info: BasicInfoNPC, i: number) => {
             return (
               <BasicInfo
                 handleSingleItemChange={handleSingleItemChange}
@@ -149,7 +162,7 @@ const NPCInfo = ({
         </tr>
         <tr>
           {NPCStats &&
-            NPCStats.map((stat: any, i: any) => {
+            NPCStats.map((stat: number, i: number) => {
               return (
                 <th key={`stat-input-${i}`}>
                   <StatInput
@@ -170,7 +183,7 @@ const NPCInfo = ({
           Umiejętności
         </Typography>
         <ul className="npc_skills-list">
-          {NPC.skills.map((skill: any, i: any) => (
+          {NPC.skills.map((skill: string, i: number) => (
             <Skill
               key={`skill-${i}`}
               text={skill}
@@ -192,9 +205,9 @@ const NPCInfo = ({
           Talenty
         </Typography>
         <ul className="npc_skills-list">
-          {NPC.talents.map((item: any, i: any) => (
+          {NPC.talents.map((talent: string, i: number) => (
             <Skill
-              text={item}
+              text={talent}
               key={`talent-${i}`}
               index={i}
               itemType={'talents'}
@@ -215,7 +228,7 @@ const NPCInfo = ({
         </Typography>
         <ul className="npc_skills-list">
           {NPC.items &&
-            NPC.items.map((item: any, i: any) => (
+            NPC.items.map((item: string, i: number) => (
               <Skill
                 key={`item-${i}`}
                 text={item}
@@ -238,7 +251,7 @@ const NPCInfo = ({
           className="npc_skills--textArea"
           value={NPC.description}
           disabled={!editable}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
             handleSingleItemChange(e, 'description');
           }}
         ></textarea>

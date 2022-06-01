@@ -13,9 +13,17 @@ const Skill = ({
   editable: boolean;
   text: string;
   index: number;
-  handleChange: (e: unknown, thing: string, i: string) => void;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    thing: string,
+    i: string
+  ) => void;
   itemType: string;
-  deleteItem: (e: unknown, item: string, i: string) => void;
+  deleteItem: (
+    e: React.MouseEvent<HTMLElement>,
+    item: string,
+    i: string
+  ) => void;
 }) => {
   const i = index.toString();
 

@@ -8,7 +8,7 @@ const StatInput = ({
   stat: number;
   index: number;
   editable: boolean;
-  handleChange: (e: MouseEvent) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const i = index.toString();
 
@@ -19,7 +19,7 @@ const StatInput = ({
       value={stat}
       name={i}
       disabled={!editable}
-      onChange={(e: any) => {
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         handleChange(e);
       }}
       min="1"

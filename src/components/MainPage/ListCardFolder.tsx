@@ -11,7 +11,7 @@ import { deleteFolder, getFolders } from '../../firebase';
 import { setFolders } from '../../redux/NPCharactersSlice';
 import { useDispatch } from 'react-redux';
 
-const ListCardFolder = ({ name, data }: { name: string; data: any }) => {
+const ListCardFolder = ({ name, data }: { name: string; data: string[] }) => {
   const [clicked, setClicked] = useState(false);
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
@@ -27,13 +27,9 @@ const ListCardFolder = ({ name, data }: { name: string; data: any }) => {
       deleteFolder(name);
       getFolders()
         .then((res) => {
-          if (res) {
-            // Do naprawienia
-            setTimeout(() => {
-              dispatch(setFolders([...res]));
-            }, 500);
-          }
-          return res;
+          if (!res) return;
+          dispatch(setFolders([...res]));
+          return null;
         })
         .catch((err) => {
           console.log(err);
@@ -55,7 +51,7 @@ const ListCardFolder = ({ name, data }: { name: string; data: any }) => {
           type="text"
           value={nameTest}
           disabled={editable}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setNameTest(e.target.value);
           }}
         />
@@ -88,7 +84,7 @@ const ListCardFolder = ({ name, data }: { name: string; data: any }) => {
       {clicked && (
         <ul className="listOfNPC">
           {data &&
-            data.map((file: any, i: number) => {
+            data.map((file: string, i: number) => {
               return <ListCardNPC name={file} key={`list-card-NPC-${i}`} />;
             })}
 
