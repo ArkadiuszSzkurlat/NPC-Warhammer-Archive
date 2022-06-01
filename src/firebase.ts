@@ -9,7 +9,7 @@ import {
   setDoc,
   deleteDoc,
 } from 'firebase/firestore';
-import { NPCArchetype } from './redux/NPCSlice';
+import { Folders, NPCArchetype } from './types/types';
 
 const app = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -100,10 +100,6 @@ export const getSpecificNPC = async (name: string) => {
 };
 
 //FOLDERS
-interface Folders {
-  name: string;
-  files: string[];
-}
 
 export const getFolders = async () => {
   if (!auth.currentUser?.email) return;

@@ -14,14 +14,18 @@ import { useEffect } from 'react';
 import { getNPCs, getFolders } from '../firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNPCharacters, setFolders } from '../redux/NPCharactersSlice';
+import { Folders, NpcInitialRootState } from '../types/types';
 // resetServerContext();
 
 const MainList = () => {
   const NPCharacters = useSelector(
-    (state: any) => state.NPCharactersSlice.names
+    (state: NpcInitialRootState) => state.NPCharactersSlice.names
   );
-  const folders = useSelector((state: any) => state.NPCharactersSlice.folders);
-  // TODO dispatch nie działa
+  console.log(NPCharacters);
+  const folders: Folders[] = useSelector(
+    (state: NpcInitialRootState) => state.NPCharactersSlice.folders
+  );
+  console.log(folders);
   const dispatch = useDispatch();
   // const [mainListSnapshot, setMainListSnapshot] = useState();
   // const Reorder = (list, startIndex, endIndex) => {
@@ -42,9 +46,8 @@ const MainList = () => {
       .catch((err) => {
         console.log(err);
       });
-    const folders = getFolders()
+    getFolders()
       .then((folders) => {
-        console.log(folders);
         if (folders) {
           dispatch(setFolders([...folders]));
         }
@@ -53,7 +56,6 @@ const MainList = () => {
       .catch((err) => {
         console.log(err);
       });
-    console.log(folders);
   }, []);
 
   // const handleonDragEnd = (result) => {
@@ -101,7 +103,8 @@ const MainList = () => {
         })}
       <AddNPCButton folderName="main" />
       {folders &&
-        folders.map((folder: any, i: number) => {
+        folders.map((folder: Folders, i: number) => {
+          console.log(folder);
           return (
             <>
               <ListCardFolder

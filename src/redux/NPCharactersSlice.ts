@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface NPCInitialState {
-  names: string[];
-  folders: string[];
-}
+import { Folders, NPCInitialState } from '../types/types';
 
 const initialState: NPCInitialState = { names: [], folders: [] };
 
@@ -11,10 +7,13 @@ export const NPCharactersSlice = createSlice({
   name: 'NPCharacters',
   initialState,
   reducers: {
-    setNPCharacters: (state: NPCInitialState, action: PayloadAction<any>) => {
+    setNPCharacters: (
+      state: NPCInitialState,
+      action: PayloadAction<string[]>
+    ) => {
       return { ...state, names: action.payload };
     },
-    setFolders: (state: NPCInitialState, action: PayloadAction<any>) => {
+    setFolders: (state: NPCInitialState, action: PayloadAction<Folders[]>) => {
       return { ...state, folders: action.payload };
     },
   },

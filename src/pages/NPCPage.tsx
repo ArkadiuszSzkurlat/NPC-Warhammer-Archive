@@ -4,7 +4,7 @@ import MainUserInfo from '../components/MainUserInfo';
 import NPCNav from '../components/NPCNav';
 import NPCInfo from '../components/NPCPage/NPCInfo';
 import { useEffect, useState } from 'react';
-import { NPCArchetype } from '../redux/NPCSlice';
+import { NPCArchetype } from '../types/types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 
