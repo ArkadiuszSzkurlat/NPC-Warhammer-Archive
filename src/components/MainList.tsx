@@ -21,11 +21,9 @@ const MainList = () => {
   const NPCharacters = useSelector(
     (state: NpcInitialRootState) => state.NPCharactersSlice.names
   );
-  console.log(NPCharacters);
   const folders: Folders[] = useSelector(
     (state: NpcInitialRootState) => state.NPCharactersSlice.folders
   );
-  console.log(folders);
   const dispatch = useDispatch();
   // const [mainListSnapshot, setMainListSnapshot] = useState();
   // const Reorder = (list, startIndex, endIndex) => {
@@ -108,7 +106,6 @@ const MainList = () => {
       <AddNPCButton folderName="main" />
       {folders &&
         folders.map((folder: Folders, i: number) => {
-          console.log(folder);
           return (
             <>
               <ListCardFolder

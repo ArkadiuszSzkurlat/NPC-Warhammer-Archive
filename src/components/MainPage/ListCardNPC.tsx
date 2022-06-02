@@ -4,7 +4,13 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import avatarImage from '../../resources/images/face.jpg';
 import './listcard.css';
 import { useNavigate } from 'react-router-dom';
-import { deleteNPC, getSpecificNPC, getNPCs, getFolders } from '../../firebase';
+import {
+  deleteNPC,
+  getSpecificNPC,
+  getNPCs,
+  getFolders,
+  getAvatar,
+} from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { changeNPCStats } from '../../redux/NPCSlice';
 import { setFolders, setNPCharacters } from '../../redux/NPCharactersSlice';
@@ -59,7 +65,8 @@ const ListCardNPC = ({
       console.log('Anulowałeś usuwanie postaci');
     }
   };
-
+  const avatar =
+    'https://firebasestorage.googleapis.com/v0/b/bn-archive-development.appspot.com/o/images%2Favatar-1.jpg?alt=media&token=7cf5dee1-2caa-4d3c-aec6-eff2a94a6f3b';
   return (
     <Card className="listCardNPC">
       <img className="listCardNPC-avatar" alt="avatar" src={avatarImage} />

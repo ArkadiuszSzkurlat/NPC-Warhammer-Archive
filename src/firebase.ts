@@ -9,6 +9,7 @@ import {
   setDoc,
   deleteDoc,
 } from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage';
 import { Folders, NPCArchetype } from './types/types';
 
 const app = firebase.initializeApp({
@@ -26,6 +27,39 @@ export default app;
 export const auth = app.auth();
 
 export const db = getFirestore(app);
+
+export const storage = getStorage(app);
+
+export const getAvatar = async (number: string) => {
+  let image;
+  await getDownloadURL(ref(storage, `images/avatar-${number}.jpg`))
+    .then((img) => {
+      image = img;
+      return img;
+    })
+    .catch((err) => `something went wrong ${err}`);
+  return image;
+};
+
+export const getAllAvatars = async () => {
+  const ReferenceOfAllAvatars: string[] = [];
+  await listAll(ref(storage, 'images/'))
+    .then(async (res: any) => {
+      for (let i = 0; i < res.items.length; i++) {
+        await getDownloadURL(ref(res.items[i]))
+          .then((img) => {
+            ReferenceOfAllAvatars.push(img);
+            return img;
+          })
+          .catch((err) => console.log(err));
+      }
+      return null;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return ReferenceOfAllAvatars;
+};
 
 // Auth menagment
 export const creatUserWithEmail = (email: string, password: string) => {

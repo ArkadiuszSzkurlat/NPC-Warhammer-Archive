@@ -12,7 +12,6 @@ import { setFolders } from '../../redux/NPCharactersSlice';
 import { useDispatch } from 'react-redux';
 
 const ListCardFolder = ({ name, data }: { name: string; data: string[] }) => {
-  console.log(name);
   const [clicked, setClicked] = useState(false);
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
