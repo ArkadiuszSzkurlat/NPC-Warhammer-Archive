@@ -1,20 +1,20 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './npcinfo.css';
 import AvatarImg from '../../resources/images/face.jpg';
 import StatInput from './StatInput';
 import Skill from './Skill';
-import BasicInfo from './BasicInfo';
 import AddItem from './AddItem';
 import { useDispatch } from 'react-redux';
 import { changeNPCStats } from '../../redux/NPCSlice';
-import { NPCArchetype } from '../../types/types';
-
-interface BasicInfoNPC {
-  eng: string;
-  pl: string;
-}
+import { NPCArchetype, RaceType } from '../../types/types';
+import Race from './BasicInfo/Race';
+import Class from './BasicInfo/Class';
+import Status from './BasicInfo/Status';
+import AgeHeight from './BasicInfo/AgeHeight';
+import CasinoIcon from '@mui/icons-material/Casino';
+import { races } from './BasicInfo/charactersData';
 
 const NPCInfo = ({
   editable,
@@ -31,14 +31,6 @@ const NPCInfo = ({
   useEffect(() => {
     setNPCStats(NPC.stats);
   }, [NPC.stats]);
-
-  const NPCBasicInfo: BasicInfoNPC[] = [
-    { eng: 'race', pl: 'Rasa' },
-    { eng: 'class', pl: 'Klasa' },
-    { eng: 'status', pl: 'Status' },
-    { eng: 'age', pl: 'Wiek' },
-    { eng: 'height', pl: 'Wzrost' },
-  ];
 
   //Zmienia staty postaci
   const handleChangeNPCStats = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,17 +83,27 @@ const NPCInfo = ({
     }));
   };
 
-  const handleSingleItemChange = async (
-    e:
-      | React.ChangeEvent<HTMLTextAreaElement>
-      | React.ChangeEvent<HTMLInputElement>,
-    type: string
-  ) => {
-    const { value } = e.target;
-    console.log(type);
+  const handleSingleItemChange = async (inputValue: string, type: string) => {
     setNPC((prevState: NPCArchetype) => ({
       ...prevState,
-      [type]: value,
+      [type]: inputValue,
+    }));
+  };
+
+  const randomStatsGenerator = () => {
+    const raceInfo = races.find((e: RaceType) => e.name === NPC.race);
+    if (!raceInfo) {
+      alert('Niestety do tej rasy aktualnie nie ma losowania statystyk');
+      return;
+    }
+    const randomStats = raceInfo?.initialStats.map((stat) => {
+      const DiceThrow = () => Math.floor(Math.random() * (10 - 1)) + 1;
+      return stat + DiceThrow() + DiceThrow();
+    });
+    setNPCStats(randomStats);
+    setNPC((prevState: NPCArchetype) => ({
+      ...prevState,
+      ['stats']: randomStats,
     }));
   };
 
@@ -127,24 +129,51 @@ const NPCInfo = ({
             value={NPC.name}
             disabled={!editable}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              handleSingleItemChange(e, 'name');
+              handleSingleItemChange(e.target.value, 'name');
             }}
           />
         </div>
         {/* Main info */}
         <div className="npc-mainInfo">
-          {NPCBasicInfo.map((info: BasicInfoNPC, i: number) => {
-            return (
-              <BasicInfo
-                handleSingleItemChange={handleSingleItemChange}
-                editable={editable}
-                NPC={NPC}
-                infoType={info}
-                key={`basic-info-${i}`}
-              />
-            );
-          })}
+          <Race
+            NPC={NPC}
+            editable={editable}
+            handleSingleItemChange={handleSingleItemChange}
+            infoType="race"
+          ></Race>
+          <Class
+            NPC={NPC}
+            editable={editable}
+            handleSingleItemChange={handleSingleItemChange}
+            infoType="class"
+          ></Class>
+          <Status
+            NPC={NPC}
+            editable={editable}
+            handleSingleItemChange={handleSingleItemChange}
+            infoType="status"
+          ></Status>
+          <AgeHeight
+            editable={editable}
+            handleSingleItemChange={handleSingleItemChange}
+            infoType="age"
+            NPC={NPC}
+          ></AgeHeight>
+          <AgeHeight
+            editable={editable}
+            handleSingleItemChange={handleSingleItemChange}
+            infoType="height"
+            NPC={NPC}
+          ></AgeHeight>
         </div>
+
+        <IconButton
+          disabled={!editable}
+          id="npc-top--statsGenerator"
+          onClick={randomStatsGenerator}
+        >
+          <CasinoIcon style={{ fontSize: 40 }} />
+        </IconButton>
       </div>
       {/* STATS */}
       <table>
@@ -252,7 +281,7 @@ const NPCInfo = ({
           value={NPC.description}
           disabled={!editable}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-            handleSingleItemChange(e, 'description');
+            handleSingleItemChange(e.target.value, 'description');
           }}
         ></textarea>
       </div>

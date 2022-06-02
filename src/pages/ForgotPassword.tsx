@@ -14,7 +14,9 @@ const ForgotPassword = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: any): Promise<void> => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     try {

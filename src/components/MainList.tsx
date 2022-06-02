@@ -97,7 +97,11 @@ const MainList = () => {
         NPCharacters.map((file: string, i: number) => {
           return (
             <>
-              <ListCardNPC name={file} key={`NPC-Card-${i}`} />
+              <ListCardNPC
+                name={file}
+                key={`NPC-Card-${i}`}
+                folderName="main"
+              />
             </>
           );
         })}

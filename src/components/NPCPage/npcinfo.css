@@ -17,8 +17,14 @@ input {
   justify-content: space-around;
   padding-top: 15px;
   align-items: center;
+  position: relative;
 }
 
+#npc-top--statsGenerator {
+  position: absolute;
+  bottom: 0px;
+  right: 50px;
+}
 .npc-top-avatar {
   position: relative;
 
@@ -57,10 +63,18 @@ input {
 }
 
 .npc-mainInfo--BasicInfo {
-  width: 75%;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }
-.npc_stats {
+.npc-mainInfo--BasicInfo--Autocomplete {
+  width: 75% !important;
 }
+.npc-mainInfo--BasicInfo--label {
+  min-width: 100px;
+}
+/* .npc_stats {
+} */
 
 .npc_stats-single {
   width: 100%;

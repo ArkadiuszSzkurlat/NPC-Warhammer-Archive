@@ -2,7 +2,7 @@ import React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { auth, creatUserWithEmail } from '../firebase';
 
-const authContext = createContext<any>({} as any);
+const authContext = createContext<any | null>(null);
 
 export const useAuth = () => {
   return useContext(authContext);
@@ -18,7 +18,6 @@ const AuthProvider = ({ children }: { children: any }) => {
 
   const login = (email: string, password: string) => {
     return auth.signInWithEmailAndPassword(email, password).then(() => {
-      console.log(auth.currentUser);
       return auth.currentUser;
     });
   };
@@ -37,6 +36,7 @@ const AuthProvider = ({ children }: { children: any }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
+      if (!user) return;
       setCurrentUser(user);
       setLoading(false);
     });

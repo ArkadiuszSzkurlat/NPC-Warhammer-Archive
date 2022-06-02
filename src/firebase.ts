@@ -74,9 +74,15 @@ export const addEditNPC = (data: NPCArchetype): void => {
   }
 };
 
-export const deleteNPC = (name: string) => {
-  auth.currentUser?.email &&
+export const deleteNPC = (name: string, folder = 'main') => {
+  if (!auth.currentUser?.email) return;
+  if (folder === 'main') {
     deleteDoc(doc(db, 'users', auth.currentUser.email, 'files', name));
+  } else {
+    deleteDoc(
+      doc(db, 'users', auth.currentUser.email, 'folders', folder, 'files', name)
+    );
+  }
 };
 
 export const getNPCs = async () => {

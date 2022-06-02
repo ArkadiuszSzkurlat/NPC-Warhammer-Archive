@@ -4,12 +4,18 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import avatarImage from '../../resources/images/face.jpg';
 import './listcard.css';
 import { useNavigate } from 'react-router-dom';
-import { deleteNPC, getSpecificNPC, getNPCs } from '../../firebase';
+import { deleteNPC, getSpecificNPC, getNPCs, getFolders } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { changeNPCStats } from '../../redux/NPCSlice';
-import { setNPCharacters } from '../../redux/NPCharactersSlice';
+import { setFolders, setNPCharacters } from '../../redux/NPCharactersSlice';
 
-const ListCardNPC = ({ name }: { name: string }) => {
+const ListCardNPC = ({
+  name,
+  folderName,
+}: {
+  name: string;
+  folderName: string;
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,7 +31,7 @@ const ListCardNPC = ({ name }: { name: string }) => {
 
   const deleteButtonHandler = (): void => {
     if (window.confirm('Na pewno chcesz usunąć postać?')) {
-      deleteNPC(name);
+      deleteNPC(name, folderName);
       getNPCs()
         .then((res) => {
           if (res) {
@@ -36,6 +42,18 @@ const ListCardNPC = ({ name }: { name: string }) => {
         .catch((err) => {
           console.log(err);
         });
+      if (folderName !== 'main') {
+        getFolders()
+          .then((folders) => {
+            if (folders) {
+              dispatch(setFolders([...folders]));
+            }
+            return folders;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
       navigate('/');
     } else {
       console.log('Anulowałeś usuwanie postaci');

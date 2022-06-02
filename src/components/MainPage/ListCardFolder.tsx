@@ -12,10 +12,10 @@ import { setFolders } from '../../redux/NPCharactersSlice';
 import { useDispatch } from 'react-redux';
 
 const ListCardFolder = ({ name, data }: { name: string; data: string[] }) => {
+  console.log(name);
   const [clicked, setClicked] = useState(false);
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
-  const [star, setStar] = useState(true);
   const dispatch = useDispatch();
 
   const deleteFolderButtonHandler = () => {
@@ -55,12 +55,6 @@ const ListCardFolder = ({ name, data }: { name: string; data: string[] }) => {
             setNameTest(e.target.value);
           }}
         />
-        <IconButton onClick={() => setStar(!star)}>
-          <StarIcon
-            // @ts-ignore: Unreachable code error
-            sx={{ color: star && '#c9c600' }}
-          />
-        </IconButton>
         <IconButton onClick={deleteFolderButtonHandler}>
           <DeleteOutlineIcon />
         </IconButton>
@@ -85,7 +79,13 @@ const ListCardFolder = ({ name, data }: { name: string; data: string[] }) => {
         <ul className="listOfNPC">
           {data &&
             data.map((file: string, i: number) => {
-              return <ListCardNPC name={file} key={`list-card-NPC-${i}`} />;
+              return (
+                <ListCardNPC
+                  name={file}
+                  folderName={name}
+                  key={`list-card-NPC-${i}`}
+                />
+              );
             })}
 
           <AddNPCButton folderName={name} />

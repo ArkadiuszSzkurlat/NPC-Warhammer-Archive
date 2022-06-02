@@ -26,3 +26,7 @@ export interface Folders {
   name: string;
   files: string[];
 }
+export interface RaceType {
+  name: string;
+  initialStats: number[];
+}
