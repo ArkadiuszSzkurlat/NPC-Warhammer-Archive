@@ -8,9 +8,11 @@ import {
   collection,
   setDoc,
   deleteDoc,
+  DocumentData,
+  DocumentSnapshot,
 } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL, listAll } from 'firebase/storage';
-import { Folders, NPCArchetype } from './types/types';
+import { Folders, NPCArchetype, NPCWithAvatar } from './types/types';
 
 const app = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -29,17 +31,6 @@ export const auth = app.auth();
 export const db = getFirestore(app);
 
 export const storage = getStorage(app);
-
-export const getAvatar = async (number: string) => {
-  let image;
-  await getDownloadURL(ref(storage, `images/avatar-${number}.jpg`))
-    .then((img) => {
-      image = img;
-      return img;
-    })
-    .catch((err) => `something went wrong ${err}`);
-  return image;
-};
 
 export const getAllAvatars = async () => {
   const ReferenceOfAllAvatars: string[] = [];
@@ -76,11 +67,11 @@ export const addEditNPC = (data: NPCArchetype): void => {
   if (auth.currentUser?.email && data.folder === 'main') {
     setDoc(doc(db, 'users', auth.currentUser.email, 'files', data.name), data)
       .then(() => {
-        alert('Pomyślnie zapisano postać');
+        console.log('Pomyślnie zapisano postać');
         return null;
       })
       .catch((err) => {
-        alert('Wystąpił błąd przy zapisywaniu postaci');
+        console.log('Wystąpił błąd przy zapisywaniu postaci');
         console.log(err);
       });
   }
@@ -121,21 +112,38 @@ export const deleteNPC = (name: string, folder = 'main') => {
 
 export const getNPCs = async () => {
   if (!auth.currentUser?.email) return;
-  const NPCS: string[] = [];
+  const NPCS: NPCWithAvatar[] = [];
   const filesSnapshot = await getDocs(
     collection(db, 'users', auth.currentUser.email, 'files')
   );
   filesSnapshot.forEach((doc) => {
-    NPCS.push(doc.id);
+    const data = doc.data() as NPCArchetype;
+    NPCS.push({
+      name: doc.id,
+      avatarURL: data.avatarURL ? data.avatarURL : 'Brak',
+    });
   });
   return NPCS;
 };
 
-export const getSpecificNPC = async (name: string) => {
+export const getSpecificNPC = async (name: string, folderName = 'main') => {
   if (!auth.currentUser?.email) return;
-  const NPC = await getDoc(
-    doc(db, 'users', auth.currentUser.email, 'files', name)
-  );
+  let NPC;
+  if (folderName !== 'main') {
+    NPC = await getDoc(
+      doc(
+        db,
+        'users',
+        auth.currentUser.email,
+        'folders',
+        folderName,
+        'files',
+        name
+      )
+    );
+  } else {
+    NPC = await getDoc(doc(db, 'users', auth.currentUser.email, 'files', name));
+  }
   return NPC;
 };
 
@@ -152,7 +160,7 @@ export const getFolders = async () => {
     foldersNames.push(snap.data().name);
   });
   for (let i = 0; i < foldersNames.length; i++) {
-    const NPCs: string[] = [];
+    const NPCs: NPCWithAvatar[] = [];
     const files = await getDocs(
       collection(
         db,
@@ -163,8 +171,12 @@ export const getFolders = async () => {
         'files'
       )
     );
-    files.forEach((file) => {
-      NPCs.push(file.id);
+    files.forEach((doc) => {
+      const data = doc.data() as NPCArchetype;
+      NPCs.push({
+        name: doc.id,
+        avatarURL: data.avatarURL ? data.avatarURL : 'Brak',
+      });
     });
     folders.push({ name: foldersNames[i], files: NPCs });
   }
@@ -188,6 +200,7 @@ export const addNewFolder = async (name: string) => {
 
 export const deleteFolder = async (name: string) => {
   if (!auth.currentUser?.email) return;
+
   await deleteDoc(doc(db, 'users', auth.currentUser.email, 'folders', name));
   const filesSnapshot = await getDocs(
     collection(db, 'users', auth.currentUser.email, 'folders', name, 'files')
@@ -206,4 +219,34 @@ export const deleteFolder = async (name: string) => {
       )
     );
   });
+};
+
+export const renameFolder = async (name: string, newName = 'test') => {
+  await addNewFolder(newName);
+  if (!auth.currentUser?.email) return;
+  const filesSnapshot = await getDocs(
+    collection(db, 'users', auth.currentUser.email, 'folders', name, 'files')
+  );
+  for (let i = 0; i < filesSnapshot.size; i++) {
+    await getDoc(
+      doc(
+        db,
+        'users',
+        auth.currentUser.email,
+        'folders',
+        name,
+        'files',
+        filesSnapshot.docs[0].id
+      )
+    )
+      .then((res: DocumentSnapshot<DocumentData>) => {
+        if (!res.data()) return;
+        const data = res.data()! as NPCArchetype;
+        data.folder = newName;
+        addEditNPC(data);
+        return null;
+      })
+      .catch((err) => console.log(err));
+  }
+  await deleteFolder(name);
 };

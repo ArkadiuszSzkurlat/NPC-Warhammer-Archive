@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import { Card, Avatar, IconButton } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ListCardNPC from './ListCardNPC';
 import AddNPCButton from './AddNPCButton';
-import { deleteFolder, getFolders } from '../../firebase';
+import { deleteFolder, getFolders, renameFolder } from '../../firebase';
 import { setFolders } from '../../redux/NPCharactersSlice';
 import { useDispatch } from 'react-redux';
+import { NPCWithAvatar } from '../../types/types';
 
-const ListCardFolder = ({ name, data }: { name: string; data: string[] }) => {
+const ListCardFolder = ({
+  name,
+  data,
+}: {
+  name: string;
+  data: NPCWithAvatar[];
+}) => {
   const [clicked, setClicked] = useState(false);
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
   const dispatch = useDispatch();
+  console.log(data);
 
   const deleteFolderButtonHandler = () => {
     if (
@@ -36,6 +43,12 @@ const ListCardFolder = ({ name, data }: { name: string; data: string[] }) => {
     }
   };
 
+  const renameButtonHandler = () => {
+    setEditable(!editable);
+    if (!editable) {
+      renameFolder(name, nameTest);
+    }
+  };
   return (
     <>
       <Card
@@ -60,9 +73,7 @@ const ListCardFolder = ({ name, data }: { name: string; data: string[] }) => {
         <IconButton
           // @ts-ignore: Unreachable code error
           sx={{ color: !editable && '#b05217' }}
-          onClick={() => {
-            setEditable(!editable);
-          }}
+          onClick={renameButtonHandler}
         >
           <EditIcon />
         </IconButton>
@@ -77,11 +88,12 @@ const ListCardFolder = ({ name, data }: { name: string; data: string[] }) => {
       {clicked && (
         <ul className="listOfNPC">
           {data &&
-            data.map((file: string, i: number) => {
+            data.map((file: NPCWithAvatar, i: number) => {
               return (
                 <ListCardNPC
-                  name={file}
+                  name={file.name}
                   folderName={name}
+                  avatarURL={file.avatarURL}
                   key={`list-card-NPC-${i}`}
                 />
               );

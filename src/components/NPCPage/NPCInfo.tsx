@@ -2,7 +2,6 @@ import React from 'react';
 import { IconButton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import './npcinfo.css';
-import AvatarImg from '../../resources/images/face.jpg';
 import StatInput from './StatInput';
 import Skill from './Skill';
 import AddItem from './AddItem';
@@ -15,6 +14,7 @@ import Status from './BasicInfo/Status';
 import AgeHeight from './BasicInfo/AgeHeight';
 import CasinoIcon from '@mui/icons-material/Casino';
 import { races } from './BasicInfo/charactersData';
+import Avatar from './Avatar';
 
 const NPCInfo = ({
   editable,
@@ -121,18 +121,11 @@ const NPCInfo = ({
       {/* TOP */}
       <div className="npc-top">
         {/* IMG */}
-        <div className="npc-top-avatar">
-          <img src={AvatarImg} className="npc-top-avatar-img" alt="avatar" />
-          <input
-            className="npc-top-avatar-nickname"
-            type="text"
-            value={NPC.name}
-            disabled={!editable}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              handleSingleItemChange(e.target.value, 'name');
-            }}
-          />
-        </div>
+        <Avatar
+          editable={editable}
+          NPC={NPC}
+          handleSingleItemChange={handleSingleItemChange}
+        />
         {/* Main info */}
         <div className="npc-mainInfo">
           <Race

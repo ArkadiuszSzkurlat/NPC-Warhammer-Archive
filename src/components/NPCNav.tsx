@@ -31,7 +31,6 @@ const NPCNav = ({
   const saveButtonHandler = (): void => {
     setSaved(true);
     if (saved === false) {
-      console.log(NPC);
       if (NPC.name) {
         addEditNPC(NPC);
       } else {

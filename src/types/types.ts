@@ -11,20 +11,24 @@ export interface NPCArchetype {
   talents: Array<string>;
   items: Array<string>;
   description: string;
+  avatarURL: string;
 }
 
 export interface NPCInitialState {
-  names: string[];
+  npcs: NPCWithAvatar[];
   folders: Folders[];
 }
-
+export interface NPCWithAvatar {
+  name: string;
+  avatarURL: string;
+}
 export interface NpcInitialRootState {
   NPCharactersSlice: NPCInitialState;
 }
 
 export interface Folders {
   name: string;
-  files: string[];
+  files: NPCWithAvatar[];
 }
 export interface RaceType {
   name: string;

@@ -1,17 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Folders, NPCInitialState } from '../types/types';
+import { Folders, NPCInitialState, NPCWithAvatar } from '../types/types';
 
-const initialState: NPCInitialState = { names: [], folders: [] };
+const initialState: NPCInitialState = { npcs: [], folders: [] };
 
 export const NPCharactersSlice = createSlice({
   name: 'NPCharacters',
   initialState,
   reducers: {
-    setNPCharacters: (
-      state: NPCInitialState,
-      action: PayloadAction<string[]>
-    ) => {
-      return { ...state, names: action.payload };
+    setNPCharacters: (state: any, action: PayloadAction<NPCWithAvatar[]>) => {
+      return { ...state, npcs: action.payload };
     },
     setFolders: (state: NPCInitialState, action: PayloadAction<Folders[]>) => {
       return { ...state, folders: action.payload };

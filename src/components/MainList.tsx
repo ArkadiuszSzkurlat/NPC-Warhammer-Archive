@@ -14,12 +14,12 @@ import { useEffect } from 'react';
 import { getNPCs, getFolders } from '../firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNPCharacters, setFolders } from '../redux/NPCharactersSlice';
-import { Folders, NpcInitialRootState } from '../types/types';
+import { Folders, NpcInitialRootState, NPCWithAvatar } from '../types/types';
 // resetServerContext();
 
 const MainList = () => {
   const NPCharacters = useSelector(
-    (state: NpcInitialRootState) => state.NPCharactersSlice.names
+    (state: NpcInitialRootState) => state.NPCharactersSlice.npcs
   );
   const folders: Folders[] = useSelector(
     (state: NpcInitialRootState) => state.NPCharactersSlice.folders
@@ -37,7 +37,8 @@ const MainList = () => {
     getNPCs()
       .then((res) => {
         if (res) {
-          dispatch(setNPCharacters([...res]));
+          console.log(res);
+          dispatch(setNPCharacters(res));
         }
         return null;
       })
@@ -88,17 +89,17 @@ const MainList = () => {
   //     console.log(items);
   //   }
   // };
-
   return (
     <ul className="listOfNPC">
       {NPCharacters &&
-        NPCharacters.map((file: string, i: number) => {
+        NPCharacters.map((file: NPCWithAvatar, i: number) => {
           return (
             <>
               <ListCardNPC
-                name={file}
+                name={file.name}
                 key={`NPC-Card-${i}`}
                 folderName="main"
+                avatarURL={file.avatarURL}
               />
             </>
           );

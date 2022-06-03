@@ -27,10 +27,49 @@ input {
 }
 .npc-top-avatar {
   position: relative;
-
-  height: auto;
+  height: 250px;
   width: 250px;
   margin: 15px;
+}
+
+#npc-top-avatar-iconButton {
+  position: absolute;
+  right: 0;
+}
+
+#chooseAvatar-modal {
+  position: relative;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  background: white;
+
+  display: flex;
+  gap: 10px;
+  padding: 40px;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: space-evenly;
+  /* border-radius: 15px; */
+}
+
+#chooseAvatar-modal-iconButton {
+  position: absolute;
+  color: black;
+  right: 0;
+  top: 0;
+}
+
+.chooseAvatar-modal-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+}
+.chooseAvatar-modal-avatar:hover {
+  opacity: 0.7;
+  cursor: pointer;
 }
 
 .npc-top-avatar-img {

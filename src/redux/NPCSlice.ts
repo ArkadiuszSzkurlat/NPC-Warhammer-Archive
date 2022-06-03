@@ -14,6 +14,7 @@ const initialState: NPCArchetype = {
   talents: [],
   items: [],
   description: '',
+  avatarURL: '',
 };
 
 export const NPCSlice = createSlice({
@@ -35,6 +36,8 @@ export const NPCSlice = createSlice({
       state.talents = action.payload.talents;
       state.items = action.payload.items;
       state.description = action.payload.description;
+      state.avatarURL = action.payload.avatarURL;
+      state.folder = action.payload.folder;
     },
     changeNPCDirectory: (
       state: NPCArchetype,
