@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Folders, NPCInitialState, NPCWithAvatar } from '../types/types';
 
-const initialState: NPCInitialState = { npcs: [], folders: [] };
+const initialState: NPCInitialState = { npcs: [], folders: [], oldName: '' };
 
 export const NPCharactersSlice = createSlice({
   name: 'NPCharacters',
@@ -13,10 +13,14 @@ export const NPCharactersSlice = createSlice({
     setFolders: (state: NPCInitialState, action: PayloadAction<Folders[]>) => {
       return { ...state, folders: action.payload };
     },
+    setOldName: (state: NPCInitialState, action: PayloadAction<string>) => {
+      return { ...state, oldName: action.payload };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setNPCharacters, setFolders } = NPCharactersSlice.actions;
+export const { setNPCharacters, setFolders, setOldName } =
+  NPCharactersSlice.actions;
 
 export default NPCharactersSlice.reducer;

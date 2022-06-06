@@ -7,7 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import { deleteNPC, getSpecificNPC, getNPCs, getFolders } from '../../firebase';
 import { useDispatch } from 'react-redux';
 import { changeNPCStats } from '../../redux/NPCSlice';
-import { setFolders, setNPCharacters } from '../../redux/NPCharactersSlice';
+import {
+  setFolders,
+  setNPCharacters,
+  setOldName,
+} from '../../redux/NPCharactersSlice';
 
 const ListCardNPC = ({
   name,
@@ -20,6 +24,7 @@ const ListCardNPC = ({
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const editButtonHandler = (e: any): void => {
     getSpecificNPC(e.target.value, folderName)
       .then((NPCstats: any) => {
@@ -28,6 +33,7 @@ const ListCardNPC = ({
         return null;
       })
       .catch((err) => console.log(err));
+    dispatch(setOldName(e.target.value));
     navigate('/npcpage');
   };
 

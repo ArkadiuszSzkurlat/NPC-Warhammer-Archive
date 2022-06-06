@@ -22,6 +22,7 @@ const NPCNav = ({
 }) => {
   const navigate = useNavigate();
   const NPCSlice = useSelector((state: any) => state.NPCSlice);
+  const oldName = useSelector((state: any) => state.NPCharactersSlice.oldName);
   const [NPC, setNPC] = useState(NPCSlice);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const NPCNav = ({
     setSaved(true);
     if (saved === false) {
       if (NPC.name) {
-        addEditNPC(NPC);
+        addEditNPC(NPC, oldName);
       } else {
         alert('Postać musi mieć przynajmniej imię');
       }

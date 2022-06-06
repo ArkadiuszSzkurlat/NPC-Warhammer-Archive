@@ -17,6 +17,7 @@ export interface NPCArchetype {
 export interface NPCInitialState {
   npcs: NPCWithAvatar[];
   folders: Folders[];
+  oldName: string;
 }
 export interface NPCWithAvatar {
   name: string;

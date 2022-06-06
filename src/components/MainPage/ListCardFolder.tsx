@@ -22,7 +22,6 @@ const ListCardFolder = ({
   const [editable, setEditable] = useState(true);
   const [nameTest, setNameTest] = useState(name);
   const dispatch = useDispatch();
-  console.log(data);
 
   const deleteFolderButtonHandler = () => {
     if (

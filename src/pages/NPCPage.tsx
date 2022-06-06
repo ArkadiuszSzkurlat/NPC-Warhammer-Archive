@@ -13,7 +13,6 @@ const NPCPage = () => {
   const [editable, setEditable] = useState(false);
   const [saved, setSaved] = useState(false);
   const [NPC, setNPC] = useState<NPCArchetype>(NPCSlice);
-
   useEffect(() => {
     setNPC(NPCSlice);
   }, [NPCSlice]);

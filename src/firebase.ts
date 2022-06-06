@@ -63,9 +63,18 @@ export const creatUserWithEmail = (email: string, password: string) => {
 };
 
 // NPCS
-export const addEditNPC = (data: NPCArchetype): void => {
-  if (auth.currentUser?.email && data.folder === 'main') {
-    setDoc(doc(db, 'users', auth.currentUser.email, 'files', data.name), data)
+export const addEditNPC = async (data: NPCArchetype, oldName = data.name) => {
+  if (!auth.currentUser?.email) return;
+
+  if (data.folder === 'main') {
+    const filesSnapshot: any = await getDocs(
+      collection(db, 'users', auth.currentUser.email, 'files')
+    );
+
+    await setDoc(
+      doc(db, 'users', auth.currentUser.email, 'files', data.name),
+      data
+    )
       .then(() => {
         console.log('Pomyślnie zapisano postać');
         return null;
@@ -74,9 +83,13 @@ export const addEditNPC = (data: NPCArchetype): void => {
         console.log('Wystąpił błąd przy zapisywaniu postaci');
         console.log(err);
       });
+
+    if (data.name !== oldName) {
+      await deleteNPC(oldName);
+    }
   }
-  if (auth.currentUser?.email && data.folder !== 'main') {
-    setDoc(
+  if (data.folder !== 'main') {
+    await setDoc(
       doc(
         db,
         'users',
@@ -96,6 +109,9 @@ export const addEditNPC = (data: NPCArchetype): void => {
         alert('Wystąpił błąd przy zapisywaniu postaci');
         console.log(err);
       });
+    if (data.name !== oldName) {
+      await deleteNPC(oldName, data.folder);
+    }
   }
 };
 

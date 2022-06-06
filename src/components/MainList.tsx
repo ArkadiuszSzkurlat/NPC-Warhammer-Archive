@@ -37,7 +37,6 @@ const MainList = () => {
     getNPCs()
       .then((res) => {
         if (res) {
-          console.log(res);
           dispatch(setNPCharacters(res));
         }
         return null;
