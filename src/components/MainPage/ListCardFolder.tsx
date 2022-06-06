@@ -32,6 +32,7 @@ const ListCardFolder = ({
       deleteFolder(name);
       getFolders()
         .then((res) => {
+          console.log(res);
           if (!res) return;
           dispatch(setFolders([...res]));
           return null;

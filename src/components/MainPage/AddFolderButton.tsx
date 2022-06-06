@@ -5,39 +5,34 @@ import { useDispatch } from 'react-redux';
 import { addNewFolder, getFolders } from '../../firebase';
 import { setFolders } from '../../redux/NPCharactersSlice';
 
-const AddFolderButton = () => {
+const AddFolderButton = ({ setFolders }: { setFolders: any }) => {
   const dispatch = useDispatch();
-  const addNewFolderButtonHandler = (): void => {
+
+  const addNewFolderButtonHandler = () => {
     const name = prompt('Jak chcesz nazwać folder?');
     if (name) {
-      addNewFolder(name);
-      getFolders()
-        .then((res) => {
-          if (res) {
-            dispatch(setFolders([...res]));
-          }
-          return res;
+      addNewFolder(name)
+        .then(() => {
+          getFolders()
+            .then((res) => {
+              if (res) {
+                dispatch(() => {
+                  setFolders([...res]);
+                });
+                setFolders([...res]);
+              }
+              return res;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          return null;
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err) => console.log(err));
     }
-    // if (window.confirm('Na pewno chcesz usunąć postać?')) {
-    //   deleteNPC(name);
-    //   getNPCs()
-    //     .then((res) => {
-    //       if (res) {
-    //         dispatch(setNPCharacters([...res]));
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    //   navigate('/');
-    // } else {
-    //   console.log('Anulowałeś usuwanie postaci');
-    // }
+    return null;
   };
+
   return (
     <div
       className="addFolderButton"

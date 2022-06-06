@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ListCardFolder from './MainPage/ListCardFolder';
 import '../components/MainPage/listcard.css';
 import ListCardNPC from './MainPage/ListCardNPC';
@@ -15,23 +15,23 @@ import { getNPCs, getFolders } from '../firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { setNPCharacters, setFolders } from '../redux/NPCharactersSlice';
 import { Folders, NpcInitialRootState, NPCWithAvatar } from '../types/types';
+import { v4 as uuidv4 } from 'uuid';
+
 // resetServerContext();
 
 const MainList = () => {
   const NPCharacters = useSelector(
     (state: NpcInitialRootState) => state.NPCharactersSlice.npcs
   );
-  const folders: Folders[] = useSelector(
+  const foldersFromStore: Folders[] = useSelector(
     (state: NpcInitialRootState) => state.NPCharactersSlice.folders
   );
+  const [folders, setFolders] = useState(foldersFromStore);
+
+  useEffect(() => {
+    setFolders(foldersFromStore);
+  }, [foldersFromStore]);
   const dispatch = useDispatch();
-  // const [mainListSnapshot, setMainListSnapshot] = useState();
-  // const Reorder = (list, startIndex, endIndex) => {
-  //   const result = Array.from(list);
-  //   const [removed] = result.splice(startIndex, 1);
-  //   result.splice(endIndex, 0, removed);
-  //   return result;
-  // };
 
   useEffect(() => {
     getNPCs()
@@ -47,7 +47,9 @@ const MainList = () => {
     getFolders()
       .then((folders) => {
         if (folders) {
-          dispatch(setFolders([...folders]));
+          dispatch(() => {
+            setFolders([...folders]);
+          });
         }
         return folders;
       })
@@ -56,38 +58,6 @@ const MainList = () => {
       });
   }, []);
 
-  // const handleonDragEnd = (result) => {
-  //   console.log('RESULT', result);
-  //   if (!result.destination) return;
-  //   const items = Array.from(characters);
-
-  //   console.log('ITEMS', items);
-
-  //   if (result.source.droppableId === 'mainList') {
-  //     const selectedCharacters = Reorder(
-  //       items,
-  //       result.source.index,
-  //       result.destination.index
-  //     );
-  //     updateCharacters(selectedCharacters);
-  //   } else {
-  //     const indexOfItem = items.findIndex((item) => {
-  //       return item.name === result.type;
-  //     });
-
-  //     const newList = Reorder(
-  //       items[indexOfItem].data,
-  //       result.source.index,
-  //       result.destination.index
-  //     );
-
-  //     items[indexOfItem].data = newList;
-
-  //     updateCharacters(items);
-
-  //     console.log(items);
-  //   }
-  // };
   return (
     <ul className="listOfNPC">
       {NPCharacters &&
@@ -110,13 +80,13 @@ const MainList = () => {
             <>
               <ListCardFolder
                 name={folder.name}
-                key={`list-card-${i}`}
+                key={uuidv4()}
                 data={folder.files}
               />
             </>
           );
         })}
-      <AddFolderButton />
+      <AddFolderButton setFolders={setFolders} />
     </ul>
   );
 };
