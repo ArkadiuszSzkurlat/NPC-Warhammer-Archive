@@ -149,14 +149,16 @@ const NPCInfo = ({
           <AgeHeight
             editable={editable}
             handleSingleItemChange={handleSingleItemChange}
-            infoType="age"
+            infoType="Age"
             NPC={NPC}
+            setNPC={setNPC}
           ></AgeHeight>
           <AgeHeight
             editable={editable}
             handleSingleItemChange={handleSingleItemChange}
-            infoType="height"
+            infoType="Height"
             NPC={NPC}
+            setNPC={setNPC}
           ></AgeHeight>
         </div>
 

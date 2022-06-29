@@ -34,4 +34,8 @@ export interface Folders {
 export interface RaceType {
   name: string;
   initialStats: number[];
+  initialAge: number;
+  diceThrowsAge: number;
+  initialHeight: number;
+  diceThrowsHeight: number;
 }

@@ -38,13 +38,14 @@ input {
 }
 
 #chooseAvatar-modal {
+  background: rgba(166, 166, 166, 0.778);
+  border-radius: 25px;
   position: relative;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
   width: 80%;
   height: 80%;
-  background: white;
 
   display: flex;
   gap: 10px;
@@ -57,7 +58,7 @@ input {
 
 #chooseAvatar-modal-iconButton {
   position: absolute;
-  color: black;
+  color: white;
   right: 0;
   top: 0;
 }
