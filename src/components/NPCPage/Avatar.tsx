@@ -6,6 +6,7 @@ import { NPCArchetype } from '../../types/types';
 import { Box } from '@mui/system';
 import { getAllAvatars } from '../../firebase';
 import CloseIcon from '@mui/icons-material/Close';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Avatar = ({
   editable,
@@ -58,7 +59,12 @@ const Avatar = ({
         <Box id="chooseAvatar-modal">
           <IconButton id="chooseAvatar-modal-iconButton" onClick={handleClose}>
             <CloseIcon style={{ fontSize: 42 }} />
-          </IconButton>
+          </IconButton>{' '}
+          {avatarsURL.length <= 0 ? (
+            <Box id="chooseAvatar-progress-circle-box">
+              <CircularProgress id="chooseAvatar-progress-circle" size={100} />
+            </Box>
+          ) : null}
           {avatarsURL &&
             avatarsURL.map((URL, i) => {
               return (

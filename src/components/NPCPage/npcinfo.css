@@ -73,6 +73,13 @@ input {
   cursor: pointer;
 }
 
+#chooseAvatar-progress-circle-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .npc-top-avatar-img {
   object-fit: cover;
   height: 100%;
